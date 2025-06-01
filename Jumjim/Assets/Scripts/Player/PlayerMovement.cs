@@ -1,58 +1,55 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class SnappySmoothDashMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 16f;
     public float moveSnapSpeed = 100f;
     public float gravity = -35f;
     public float jumpForce = 16f;
 
-    public float dashSpeed = 30f;
-    public float dashDuration = 0.15f;
-    public float dashCooldown = 0.5f;
-
     [Header("Air Control")]
     [Range(0f, 1f)]
-    public float airControlFactor = 0.1f;  // How much control you have over movement in air (0 = none, 1 = full ground control)
+    public float airControlFactor = 0.1f;
 
     private Vector3 velocity = Vector3.zero;
     private float yVelocity = 0f;
     private CharacterController controller;
 
-    // Dash control
-    private bool isDashing = false;
-    private float dashTimeLeft = 0f;
-    private float lastDashTime = -999f;
-    private Vector3 dashDirection;
-
-    // FOV kick during dash
-    public float normalFOV = 60f;
-    public float dashFOV = 80f;
-    public float fovLerpSpeed = 8f;
-
     [Header("Head bobbing")]
-    public Transform cameraHolder; // Drag the camera transform here in the Inspector
+    public Transform cameraHolder;
     public float bobFrequency = 10f;
     public float bobAmplitude = 0.05f;
     public float bobLerpSpeed = 10f;
 
     private float bobTimer = 0f;
     private Vector3 camStartLocalPos;
+    private float previousBobOffset = 0f;
 
     [Header("Camera Tilt")]
-    public float tiltAmount = 15f;        // Maximum tilt angle in degrees
-    public float tiltLerpSpeed = 8f;      // How fast the camera tilts
-    public bool invertTilt = false;       // Invert the tilt direction if needed
-    
-    private float currentTilt = 0f;       // Current tilt angle
+    public float tiltAmount = 15f;
+    public float tiltLerpSpeed = 8f;
+    public bool invertTilt = false;
+    private float currentTilt = 0f;
 
     [Header("Landing Effect")]
-    // Landing bounce
     public LandingBounce landingBounce;
+
+    [Header("Audio")]
+    public AudioSource footstepAudioSource;
+    public AudioClip footstepClip;
+    public AudioClip jumpClip;
+    private bool wasGroundedLastFrame = true;
+
+    [Header("FOV Kick")]
+    public float normalFOV = 90f;
+    public float dashFOV = 110f;
+    public float fovLerpSpeed = 8f;
+    private PlayerDash dash;
 
     void Start()
     {
+        dash = GetComponent<PlayerDash>();
         controller = GetComponent<CharacterController>();
         if (cameraHolder != null)
             camStartLocalPos = cameraHolder.localPosition;
@@ -66,48 +63,31 @@ public class SnappySmoothDashMovement : MonoBehaviour
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         Vector3 inputDir = transform.TransformDirection(input);
 
-        // Start dash
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time >= lastDashTime + dashCooldown)
-        {
-            isDashing = true;
-            dashTimeLeft = dashDuration;
-            lastDashTime = Time.time;
-            dashDirection = inputDir != Vector3.zero ? inputDir : transform.forward;
-        }
+        // Movement
+        Vector3 targetVelocity = inputDir * moveSpeed;
+        float controlFactor = grounded ? 1f : airControlFactor;
+        velocity = Vector3.MoveTowards(velocity, targetVelocity, moveSnapSpeed * controlFactor * Time.deltaTime);
 
-        if (isDashing)
+        PlayerDash dashComponent = GetComponent<PlayerDash>();
+        if (Camera.main != null && dashComponent != null)
         {
-            velocity = dashDirection * dashSpeed;
-            dashTimeLeft -= Time.deltaTime;
-
-            if (dashTimeLeft <= 0)
-            {
-                isDashing = false;
-            }
-        }
-        else
-        {
-            if (grounded)
-            {
-                // Full control on ground
-                Vector3 targetVelocity = inputDir * moveSpeed;
-                velocity = Vector3.MoveTowards(velocity, targetVelocity, moveSnapSpeed * Time.deltaTime);
-            }
-            else
-            {
-                // Partial air control
-                Vector3 targetVelocity = inputDir * moveSpeed;
-                velocity = Vector3.MoveTowards(velocity, targetVelocity, moveSnapSpeed * airControlFactor * Time.deltaTime);
-            }
+            float targetFOV = dashComponent.IsDashing() ? dashFOV : normalFOV;
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, targetFOV, fovLerpSpeed * Time.deltaTime);
         }
 
         // Gravity + Jump
         if (grounded)
         {
             if (Input.GetButtonDown("Jump"))
+            {
                 yVelocity = jumpForce;
+                if (footstepAudioSource && jumpClip)
+                    footstepAudioSource.PlayOneShot(jumpClip);
+            }
             else
-                yVelocity = -1f; // small downward force to stay grounded
+            {
+                yVelocity = -1f;
+            }
         }
         else
         {
@@ -117,36 +97,19 @@ public class SnappySmoothDashMovement : MonoBehaviour
         Vector3 move = velocity + Vector3.up * yVelocity;
         controller.Move(move * Time.deltaTime);
 
-        // Camera FOV kick during dash
-        if (Camera.main != null)
+        // Camera tilt
+        if (cameraHolder)
         {
-            float targetFOV = isDashing ? dashFOV : normalFOV;
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, targetFOV, fovLerpSpeed * Time.deltaTime);
-        }
-
-        // Camera tilt logic
-        if (cameraHolder != null)
-        {
-            // Calculate target tilt based on horizontal input
             float horizontalInput = Input.GetAxisRaw("Horizontal");
             float targetTilt = horizontalInput * tiltAmount;
-            
-            // Invert tilt if needed (some people prefer opposite direction)
-            if (invertTilt)
-                targetTilt = -targetTilt;
-            
-            // Reduce tilt during dash for stability
-            if (isDashing)
-                targetTilt *= 0.3f;
-            
-            // Smooth tilt transition
+            if (invertTilt) targetTilt = -targetTilt;
             currentTilt = Mathf.Lerp(currentTilt, targetTilt, tiltLerpSpeed * Time.deltaTime);
         }
 
-        // Head bobbing logic
-        if (cameraHolder != null)
+        // Head bobbing + footstep
+        if (cameraHolder)
         {
-            bool isMoving = input.magnitude > 0.1f && grounded && !isDashing;
+            bool isMoving = input.magnitude > 0.1f && grounded;
 
             if (isMoving)
             {
@@ -155,23 +118,27 @@ public class SnappySmoothDashMovement : MonoBehaviour
 
                 Vector3 targetPos = camStartLocalPos + new Vector3(0, bobOffset, 0);
                 cameraHolder.localPosition = Vector3.Lerp(cameraHolder.localPosition, targetPos, bobLerpSpeed * Time.deltaTime);
+
+                if (previousBobOffset <= 0f && bobOffset > 0f)
+                {
+                    if (footstepAudioSource && footstepClip && (dash == null || !dash.IsDashing()))
+                        footstepAudioSource.PlayOneShot(footstepClip);
+                }
+
+                previousBobOffset = bobOffset;
             }
             else
             {
-                // Return to original position
                 cameraHolder.localPosition = Vector3.Lerp(cameraHolder.localPosition, camStartLocalPos, bobLerpSpeed * Time.deltaTime);
                 bobTimer = 0f;
+                previousBobOffset = 0f;
             }
 
-            // Apply the tilt rotation (combined with any existing rotation)
             Vector3 currentRotation = cameraHolder.localEulerAngles;
             cameraHolder.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentTilt);
         }
 
-        // Landing bounce update
-        if (landingBounce != null)
-        {
+        if (landingBounce)
             landingBounce.SetGrounded(grounded);
-        }
     }
 }
