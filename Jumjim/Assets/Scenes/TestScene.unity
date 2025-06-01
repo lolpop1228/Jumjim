@@ -5741,9 +5741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doubleJumpForce: 10
   jumpEnabled: 1
-  doubleJumpClip: {fileID: 8300000, guid: b9086d3397389cd4e90ff63777e4cec9, type: 3}
-  doubleJumpEffect: {fileID: 0}
-  effectSpawnPoint: {fileID: 0}
+  doubleJumpClip: {fileID: 0}
 --- !u!43 &784761069
 Mesh:
   m_ObjectHideFlags: 0

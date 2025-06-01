@@ -50,17 +50,68 @@ public class PlayerMovement : MonoBehaviour
     // Better ground detection for slopes
     private float groundCheckDistance = 0.2f;
     private bool isNearGround = false;
+    
+    // Flag to track initialization
+    private bool isInitialized = false;
+
+    // Initialize components as early as possible
+    void Awake()
+    {
+        InitializeComponents();
+    }
 
     void Start()
     {
-        dash = GetComponent<PlayerDash>();
-        controller = GetComponent<CharacterController>();
-        if (cameraHolder != null)
-            camStartLocalPos = cameraHolder.localPosition;
+        // Ensure initialization happened
+        if (!isInitialized)
+            InitializeComponents();
+    }
+    
+    void OnEnable()
+    {
+        // Re-initialize when script is enabled (helps with older Unity versions)
+        if (!isInitialized)
+            InitializeComponents();
+    }
+    
+    private void InitializeComponents()
+    {
+        try
+        {
+            // Get required components
+            if (controller == null)
+                controller = GetComponent<CharacterController>();
+            
+            if (dash == null)
+                dash = GetComponent<PlayerDash>();
+            
+            // Store camera start position
+            if (cameraHolder != null)
+                camStartLocalPos = cameraHolder.localPosition;
+            
+            // Ensure footstep audio source exists
+            if (footstepAudioSource == null)
+                footstepAudioSource = GetComponent<AudioSource>();
+            
+            isInitialized = true;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"PlayerMovement initialization failed: {e.Message}", this);
+            isInitialized = false;
+        }
     }
 
     void Update()
     {
+        // Safety check - ensure components are initialized
+        if (!isInitialized || controller == null)
+        {
+            InitializeComponents();
+            if (!isInitialized || controller == null)
+                return;
+        }
+        
         bool grounded = controller.isGrounded;
 
         // Better ground detection for slopes - check slightly below the controller
@@ -151,6 +202,7 @@ public class PlayerMovement : MonoBehaviour
             landingBounce.SetGrounded(grounded);
     }
     
+    // Methods for DoubleJump script to use
     public void SetYVelocity(float newYVelocity)
     {
         yVelocity = newYVelocity;
@@ -159,5 +211,23 @@ public class PlayerMovement : MonoBehaviour
     public float GetYVelocity()
     {
         return yVelocity;
+    }
+    
+    // Additional helper methods for better integration
+    public bool IsGrounded()
+    {
+        return controller != null ? controller.isGrounded : false;
+    }
+    
+    public bool IsNearGround()
+    {
+        return isNearGround;
+    }
+    
+    public CharacterController GetController()
+    {
+        if (controller == null)
+            InitializeComponents();
+        return controller;
     }
 }
