@@ -5,7 +5,7 @@ public class DoubleJump : MonoBehaviour
 {
     [Header("Double Jump Settings")]
     public float doubleJumpForce = 14f;
-    public bool enabled = true;
+    public bool jumpEnabled = true;
     
     [Header("Audio")]
     public AudioClip doubleJumpClip;
@@ -27,10 +27,16 @@ public class DoubleJump : MonoBehaviour
         if (effectSpawnPoint == null)
             effectSpawnPoint = transform; // Default to player transform if not set
     }
-    
+
+    void OnEnable()
+    {
+        playerMovement = GetComponent<PlayerMovement>();
+        controller = GetComponent<CharacterController>();
+    }
+
     void Update()
     {
-        if (!enabled) return;
+        if (!jumpEnabled) return;
         
         bool isGrounded = controller.isGrounded;
         
@@ -101,6 +107,6 @@ public class DoubleJump : MonoBehaviour
     // Public getter for UI or other systems
     public bool CanDoubleJump()
     {
-        return enabled && !controller.isGrounded && !hasDoubleJumped;
+        return jumpEnabled && !controller.isGrounded && !hasDoubleJumped;
     }
 }

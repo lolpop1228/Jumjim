@@ -169,14 +169,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponHolder: {fileID: 83209510}
   swayAmount: 0.08
-  swaySpeed: 8
-  swayResetSpeed: 5
+  swaySpeed: 12
+  swayResetSpeed: 8
   maxSwayDistance: 0.1
   movementSwayAmount: 0.04
   movementSwaySpeed: 6
   bobFrequency: 15
-  bobAmplitude: 0.06
-  bobSpeed: 18
+  bobAmplitude: 0.05
+  bobSpeed: 15
   tiltAmount: 12
   tiltSpeed: 8
   enableMouseSway: 1
@@ -5740,7 +5740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doubleJumpForce: 10
-  enabled: 1
+  jumpEnabled: 1
   doubleJumpClip: {fileID: 8300000, guid: b9086d3397389cd4e90ff63777e4cec9, type: 3}
   doubleJumpEffect: {fileID: 0}
   effectSpawnPoint: {fileID: 0}
