@@ -47,6 +47,10 @@ public class PlayerMovement : MonoBehaviour
     public float fovLerpSpeed = 8f;
     private PlayerDash dash;
 
+    // Better ground detection for slopes
+    private float groundCheckDistance = 0.2f;
+    private bool isNearGround = false;
+
     void Start()
     {
         dash = GetComponent<PlayerDash>();
@@ -58,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         bool grounded = controller.isGrounded;
+
+        // Better ground detection for slopes - check slightly below the controller
+        RaycastHit hit;
+        isNearGround = Physics.Raycast(transform.position, Vector3.down, out hit, controller.height * 0.5f + groundCheckDistance);
 
         // Input
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
@@ -106,10 +114,11 @@ public class PlayerMovement : MonoBehaviour
             currentTilt = Mathf.Lerp(currentTilt, targetTilt, tiltLerpSpeed * Time.deltaTime);
         }
 
-        // Head bobbing + footstep
+        // Head bobbing + footstep - use better ground detection
         if (cameraHolder)
         {
-            bool isMoving = input.magnitude > 0.1f && grounded;
+            // Use isNearGround instead of just grounded for more consistent footsteps on slopes
+            bool isMoving = input.magnitude > 0.1f && (grounded || isNearGround);
 
             if (isMoving)
             {
@@ -140,5 +149,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (landingBounce)
             landingBounce.SetGrounded(grounded);
+    }
+    
+    public void SetYVelocity(float newYVelocity)
+    {
+        yVelocity = newYVelocity;
+    }
+
+    public float GetYVelocity()
+    {
+        return yVelocity;
     }
 }
