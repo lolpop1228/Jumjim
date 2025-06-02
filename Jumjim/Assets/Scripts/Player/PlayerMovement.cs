@@ -156,17 +156,23 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = velocity + Vector3.up * yVelocity;
         controller.Move(move * Time.deltaTime);
 
-        // Camera tilt
-        if (cameraHolder)
+        // Camera tilt - FIXED VERSION
+        if (cameraHolder != null)
         {
             float horizontalInput = Input.GetAxisRaw("Horizontal");
             float targetTilt = horizontalInput * tiltAmount;
             if (invertTilt) targetTilt = -targetTilt;
+            
+            // Smooth interpolation to target tilt
             currentTilt = Mathf.Lerp(currentTilt, targetTilt, tiltLerpSpeed * Time.deltaTime);
+            
+            // Apply the tilt rotation - preserving existing X and Y rotations
+            Vector3 currentRotation = cameraHolder.localEulerAngles;
+            cameraHolder.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentTilt);
         }
 
         // Head bobbing + footstep - use better ground detection
-        if (cameraHolder)
+        if (cameraHolder != null)
         {
             // Use isNearGround instead of just grounded for more consistent footsteps on slopes
             bool isMoving = input.magnitude > 0.1f && (grounded || isNearGround);
@@ -193,9 +199,6 @@ public class PlayerMovement : MonoBehaviour
                 bobTimer = 0f;
                 previousBobOffset = 0f;
             }
-
-            Vector3 currentRotation = cameraHolder.localEulerAngles;
-            cameraHolder.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentTilt);
         }
 
         if (landingBounce)

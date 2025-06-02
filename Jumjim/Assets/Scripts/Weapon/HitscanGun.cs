@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class HitscanGun : MonoBehaviour
@@ -6,12 +7,15 @@ public class HitscanGun : MonoBehaviour
     public float fireRate = 0.2f;
     public float damage = 25f;
     public float range = 100f;
+    public string weaponName = "";
     public bool isAutomatic = true;
 
     [Header("Effects")]
     public ParticleSystem muzzleFlash;
-    public GameObject hitEffectPrefab;
     public GameObject bulletTracerPrefab; // 🎯 New: LineRenderer prefab
+    public GameObject enemyHitEffectPrefab;
+    public GameObject wallHitEffectPrefab;
+    public GameObject defaultHitEffectPrefab;
 
     public AudioSource gunAudio;
     public AudioClip fireSound;
@@ -32,24 +36,58 @@ public class HitscanGun : MonoBehaviour
     public float recoilY;
     public float recoilZ;
 
+    [Header("Ammo")]
+    public int maxAmmo;
+    public int currentAmmo;
+    public bool infiniteAmmo = false;
+    public TextMeshProUGUI ammoText;
+
     private float nextTimeToFire = 0f;
 
     void Start()
     {
+        currentAmmo = maxAmmo;
+
+        gunAudio = GetComponentInParent<AudioSource>();
+        cameraRecoil = transform.parent?.parent?.parent?.GetComponent<CameraRecoil>();
+        playerCam = transform.parent?.parent?.GetComponent<Camera>();
+
+        GameObject ammoUI = GameObject.FindWithTag("AmmoUI");
+        if (ammoUI != null)
+        {
+            ammoText = ammoUI.GetComponent<TextMeshProUGUI>();
+        }
+        UpdateAmmoUI();
+
         cameraRecoil.recoilSpeed = recoilSpeed;
         cameraRecoil.returnSpeed = returnSpeed;
         cameraRecoil.maxRecoil = maxRecoil;
         cameraRecoil.recoilDecay = recoilDecay;
         cameraRecoil.randomnessFactor = randomnessFactor;
-        
+
         cameraRecoil.SetWeaponRecoil(recoilX, recoilY, recoilZ, 1.0f);
+    }
+
+    void OnEnable()
+    {
+        UpdateAmmoUI();
+        if (cameraRecoil != null)
+        {
+            cameraRecoil.recoilSpeed = recoilSpeed;
+            cameraRecoil.returnSpeed = returnSpeed;
+            cameraRecoil.maxRecoil = maxRecoil;
+            cameraRecoil.recoilDecay = recoilDecay;
+            cameraRecoil.randomnessFactor = randomnessFactor;
+
+            cameraRecoil.SetWeaponRecoil(recoilX, recoilY, recoilZ, 1.0f);
+        }
     }
 
     void Update()
     {
         bool shouldFire = isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1");
 
-        if (shouldFire && Time.time >= nextTimeToFire)
+        if (shouldFire && Time.time >= nextTimeToFire && (infiniteAmmo || currentAmmo > 0))
         {
             nextTimeToFire = Time.time + fireRate;
             Fire();
@@ -58,6 +96,13 @@ public class HitscanGun : MonoBehaviour
 
     void Fire()
     {
+        if (!infiniteAmmo)
+        {
+            currentAmmo--;
+        }
+        currentAmmo = Mathf.Max(0, currentAmmo);
+        UpdateAmmoUI();
+
         gunAnimator?.SetTrigger("Fire");
         if (muzzleFlash != null)
         {
@@ -82,13 +127,31 @@ public class HitscanGun : MonoBehaviour
         {
             hitPoint = hit.point;
 
+            GameObject hitObject = hit.collider.gameObject;
+
             EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
             if (enemy != null)
                 enemy.TakeDamage(damage);
 
-            if (hitEffectPrefab != null)
+            //spawn hit effect
+            GameObject selectedEffect = null;
+
+            if (hitObject.CompareTag("Enemy"))
             {
-                GameObject impactGO = Instantiate(hitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+                selectedEffect = enemyHitEffectPrefab;
+            }
+            else if (hitObject.CompareTag("Wall"))
+            {
+                selectedEffect = wallHitEffectPrefab;
+            }
+            else if (hitObject.CompareTag("Ground"))
+            {
+                selectedEffect = defaultHitEffectPrefab;
+            }
+
+            if (selectedEffect != null)
+            {
+                GameObject impactGO = Instantiate(selectedEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(impactGO, 1f);
             }
         }
@@ -114,4 +177,25 @@ public class HitscanGun : MonoBehaviour
         if (line != null)
             Destroy(line.gameObject);
     }
+
+    public void AddAmmo(int amount)
+    {
+        currentAmmo = Mathf.Min(currentAmmo + amount, maxAmmo);
+        UpdateAmmoUI();
+    }
+
+    void UpdateAmmoUI()
+    {
+        if (ammoText == null) return;
+
+        if (infiniteAmmo)
+        {
+            ammoText.text = "∞";
+        }
+        else
+        {
+            ammoText.text = $"Ammo:{currentAmmo}";
+        }
+    }
+
 }

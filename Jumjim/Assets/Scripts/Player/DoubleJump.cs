@@ -1,130 +1,218 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerMovement))]
 public class DoubleJump : MonoBehaviour
 {
     [Header("Double Jump Settings")]
     public float doubleJumpForce = 14f;
-    public bool jumpEnabled = true;
+    public int maxJumps = 2;
+    
+    [Header("Air Jump Control")]
+    [Range(0f, 1f)]
+    public float airJumpControlBoost = 0.3f; // Extra air control after double jump
+    public float airJumpControlDuration = 0.5f;
+    
+    [Header("Visual Effects")]
+    public ParticleSystem doubleJumpEffect;
+    public GameObject doubleJumpTrail;
     
     [Header("Audio")]
     public AudioClip doubleJumpClip;
     
-    // Don't serialize these - always find them fresh
-    [System.NonSerialized]
-    private PlayerMovement playerMovement;
-    [System.NonSerialized]
-    private CharacterController controller;
+    [Header("Coyote Time")]
+    public float coyoteTime = 0.1f; // Grace period after leaving ground
     
-    private bool hasDoubleJumped = false;
-    private bool wasGroundedLastFrame = false;
+    // Private variables
+    private PlayerMovement playerMovement;
+    private int currentJumps = 0;
+    private bool wasGroundedLastFrame = true;
+    private float coyoteTimer = 0f;
+    private float airJumpBoostTimer = 0f;
+    private AudioSource audioSource;
+    
+    // Ground detection
+    private bool isInitialized = false;
     
     void Awake()
     {
-        RefreshComponents();
+        InitializeComponents();
     }
     
     void Start()
     {
-        RefreshComponents();
-    }
-
-    void OnEnable()
-    {
-        RefreshComponents();
+        if (!isInitialized)
+            InitializeComponents();
     }
     
-    private void RefreshComponents()
+    private void InitializeComponents()
     {
-        // Always get fresh references
-        playerMovement = GetComponent<PlayerMovement>();
-        controller = GetComponent<CharacterController>();
-        
-        if (playerMovement == null)
+        try
         {
-            Debug.LogError($"PlayerMovement component not found on {gameObject.name}!");
+            if (playerMovement == null)
+                playerMovement = GetComponent<PlayerMovement>();
+            
+            if (audioSource == null)
+                audioSource = GetComponent<AudioSource>();
+            
+            isInitialized = true;
         }
-        
-        if (controller == null)
+        catch (System.Exception e)
         {
-            Debug.LogError($"CharacterController component not found on {gameObject.name}!");
+            Debug.LogError($"DoubleJump initialization failed: {e.Message}", this);
+            isInitialized = false;
         }
     }
-
+    
     void Update()
     {
-        // Safety check and refresh if needed
-        if (playerMovement == null || controller == null)
+        // Safety check
+        if (!isInitialized || playerMovement == null)
         {
-            RefreshComponents();
-            if (playerMovement == null || controller == null)
+            InitializeComponents();
+            if (!isInitialized || playerMovement == null)
                 return;
         }
         
-        if (!jumpEnabled) return;
+        bool isGrounded = playerMovement.IsGrounded();
+        bool isNearGround = playerMovement.IsNearGround();
         
-        bool isGrounded = controller.isGrounded;
-        
-        // Reset double jump when touching ground
-        if (isGrounded && !wasGroundedLastFrame)
+        // Update coyote timer
+        if (isGrounded || isNearGround)
         {
-            hasDoubleJumped = false;
+            coyoteTimer = coyoteTime;
+        }
+        else
+        {
+            coyoteTimer -= Time.deltaTime;
         }
         
-        // Handle double jump input
+        // Reset jump count when grounded
+        if (isGrounded && !wasGroundedLastFrame)
+        {
+            currentJumps = 0;
+        }
+        
+        // Handle jump input
         if (Input.GetButtonDown("Jump"))
         {
-            // If we're not grounded and haven't used our double jump yet
-            if (!isGrounded && !hasDoubleJumped)
-            {
-                PerformDoubleJump();
-            }
+            HandleJumpInput(isGrounded, isNearGround);
+        }
+        
+        // Update air jump boost timer
+        if (airJumpBoostTimer > 0f)
+        {
+            airJumpBoostTimer -= Time.deltaTime;
         }
         
         wasGroundedLastFrame = isGrounded;
     }
     
-    void PerformDoubleJump()
+    private void HandleJumpInput(bool isGrounded, bool isNearGround)
     {
-        if (playerMovement == null)
+        // First jump (ground jump or coyote time)
+        if ((isGrounded || isNearGround || coyoteTimer > 0f) && currentJumps == 0)
         {
-            RefreshComponents();
-            if (playerMovement == null) return;
+            PerformJump(playerMovement.jumpForce, false);
+            currentJumps = 1;
+            coyoteTimer = 0f; // Consume coyote time
         }
-        
-        hasDoubleJumped = true;
-        
-        // Use the SetYVelocity method from PlayerMovement
-        playerMovement.SetYVelocity(doubleJumpForce);
-        
-        // Play audio
-        if (doubleJumpClip != null && playerMovement.footstepAudioSource != null)
+        // Double jump (and additional air jumps if maxJumps > 2)
+        else if (!isGrounded && !isNearGround && currentJumps < maxJumps && currentJumps > 0)
         {
-            playerMovement.footstepAudioSource.PlayOneShot(doubleJumpClip);
+            PerformJump(doubleJumpForce, true);
+            currentJumps++;
+            
+            // Activate air control boost
+            airJumpBoostTimer = airJumpControlDuration;
         }
     }
     
-    // Public methods
-    public bool HasDoubleJumped()
+    private void PerformJump(float jumpForce, bool isDoubleJump)
     {
-        return hasDoubleJumped;
+        // Set vertical velocity
+        playerMovement.SetYVelocity(jumpForce);
+        
+        if (isDoubleJump)
+        {
+            // Play double jump effects
+            PlayDoubleJumpEffects();
+        }
+    }
+    
+    private void PlayDoubleJumpEffects()
+    {
+        // Particle effect
+        if (doubleJumpEffect != null)
+        {
+            doubleJumpEffect.Play();
+        }
+        
+        // Trail effect
+        if (doubleJumpTrail != null)
+        {
+            GameObject trail = Instantiate(doubleJumpTrail, transform.position, transform.rotation);
+            // Destroy trail after a few seconds if it doesn't destroy itself
+            Destroy(trail, 2f);
+        }
+        
+        // Audio
+        if (audioSource != null && doubleJumpClip != null)
+        {
+            audioSource.PlayOneShot(doubleJumpClip);
+        }
+    }
+    
+    // Public methods for other scripts to use
+    public int GetCurrentJumps()
+    {
+        return currentJumps;
+    }
+    
+    public int GetMaxJumps()
+    {
+        return maxJumps;
     }
     
     public bool CanDoubleJump()
     {
-        if (controller == null) RefreshComponents();
-        return jumpEnabled && controller != null && !controller.isGrounded && !hasDoubleJumped;
+        return currentJumps < maxJumps && currentJumps > 0 && 
+               !playerMovement.IsGrounded() && !playerMovement.IsNearGround();
     }
     
-    public void ResetDoubleJump()
+    public float GetAirControlBoost()
     {
-        hasDoubleJumped = false;
+        return airJumpBoostTimer > 0f ? airJumpControlBoost : 0f;
     }
     
-    // Manual refresh for debugging
-    [ContextMenu("Refresh Components")]
-    public void ManualRefresh()
+    public bool HasCoyoteTime()
     {
-        RefreshComponents();
-        Debug.Log("DoubleJump components refreshed manually.");
+        return coyoteTimer > 0f;
+    }
+    
+    // Force reset jumps (useful for special abilities or checkpoints)
+    public void ResetJumps()
+    {
+        currentJumps = 0;
+        coyoteTimer = 0f;
+        airJumpBoostTimer = 0f;
+    }
+    
+    // Add extra jumps temporarily (for power-ups)
+    public void AddTempJump(int extraJumps = 1)
+    {
+        maxJumps += extraJumps;
+        // You might want to reset this after a certain time or condition
+    }
+    
+    // Debug visualization
+    void OnGUI()
+    {
+        if (Application.isPlaying && Debug.isDebugBuild)
+        {
+            GUI.color = Color.white;
+            GUI.Label(new Rect(10, 10, 200, 20), $"Jumps: {currentJumps}/{maxJumps}");
+            GUI.Label(new Rect(10, 30, 200, 20), $"Coyote: {coyoteTimer:F2}");
+            GUI.Label(new Rect(10, 50, 200, 20), $"Air Boost: {airJumpBoostTimer:F2}");
+        }
     }
 }
