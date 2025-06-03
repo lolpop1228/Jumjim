@@ -19,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
     public LayerMask groundLayer;
 
     private List<Vector3> usedSpawnPoints = new List<Vector3>();
+    private int prefabIndex = 0;
 
     void Start()
     {
@@ -30,8 +31,8 @@ public class EnemySpawner : MonoBehaviour
     {
         int spawned = 0;
         int maxAttempts = enemiesToSpawn * 5;
-
         int attempts = 0;
+
         while (spawned < enemiesToSpawn && attempts < maxAttempts)
         {
             attempts++;
@@ -39,10 +40,13 @@ public class EnemySpawner : MonoBehaviour
             Vector3 spawnPos;
             if (TryGetValidGroundPosition(out spawnPos) && IsFarEnough(spawnPos))
             {
-                GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+                GameObject prefab = enemyPrefabs[prefabIndex];
+                prefabIndex = (prefabIndex + 1) % enemyPrefabs.Length;
+
                 Instantiate(prefab, spawnPos, Quaternion.identity);
                 usedSpawnPoints.Add(spawnPos);
                 spawned++;
+
                 yield return new WaitForSeconds(spawnDelay);
             }
         }

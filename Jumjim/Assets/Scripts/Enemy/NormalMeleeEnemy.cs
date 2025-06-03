@@ -1,205 +1,141 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody))]
 public class NormalMeleeEnemy : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float turnSpeed = 10f;
-    public float attackRange = 2f;
-    public float preAttackRange = 3f;
-    public float attackCooldown = 1.5f;
-    public int attackDamage = 10;
+    [Header("Target")]
+    public Transform player;
+    public float moveSpeed = 3f;
+    public float stopDistance = 2f; // melee range
 
-    public float flankOffset = 2f;
-    public float offsetChangeInterval = 3f;
+    [Header("Attack")]
+    public float attackCooldown = 1f;
+    public int damage = 10;
 
-    public float separationRadius = 3f;
-    public float separationStrength = 5f;
-    public float minSeparationDistance = 1.5f;
-    public int maxNearbyEnemies = 3; // Limit how many enemies can be near player
+    [Header("Separation")]
+    public float separationRadius = 2.5f;
+    public float separationStrength = 2f;
+    public LayerMask enemyLayer;
 
-    private Transform player;
+    [Header("Wobble")]
+    public float wobbleAmount = 0.5f;
+    public float wobbleSpeed = 2f;
+
+    [Header("Obstacle Avoidance")]
+    public float avoidDistance = 2.5f;
+    public float avoidStrength = 8f;
+    public float sphereRadius = 0.5f;
+    public LayerMask obstacleLayer;
+
     private Rigidbody rb;
-
-    private float lastAttackTime = -Mathf.Infinity;
-    private float nextOffsetChangeTime = 0f;
-    private Vector3 lateralOffset = Vector3.zero;
-    private Vector3 personalOffset; // Unique offset for this enemy
+    private float attackTimer;
+    private float wobbleTimer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-            player = playerObj.transform;
+        if (player == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p) player = p.transform;
+        }
+    }
 
-        // Give each enemy a unique personal offset to prevent identical positioning
-        personalOffset = new Vector3(
-            Random.Range(-1f, 1f),
-            0,
-            Random.Range(-1f, 1f)
-        ).normalized * Random.Range(0.5f, 1.5f);
+    void Update()
+    {
+        attackTimer -= Time.deltaTime;
+
+        if (player == null) return;
+
+        float dist = Vector3.Distance(transform.position, player.position);
+        if (dist <= stopDistance && attackTimer <= 0f)
+        {
+            MeleeAttack();
+            attackTimer = attackCooldown;
+        }
     }
 
     void FixedUpdate()
     {
         if (player == null) return;
 
-        float distance = Vector3.Distance(player.position, transform.position);
-        
-        // Check if too many enemies are already close to player
-        if (distance > attackRange && ShouldWaitTurn())
-        {
-            CircleAroundPlayer();
-            return;
-        }
+        Vector3 targetPos = new Vector3(player.position.x, rb.position.y, player.position.z);
+        Vector3 dirToPlayer = (targetPos - rb.position).normalized;
 
-        if (distance <= attackRange)
-        {
-            // Face the player directly when in attack range
-            FacePlayer();
-            TryAttackPlayer();
-            return;
-        }
-
-        MoveWithOffsetAndSeparation();
-    }
-
-    bool ShouldWaitTurn()
-    {
-        Collider[] nearPlayer = Physics.OverlapSphere(player.position, preAttackRange);
-        int enemiesNearPlayer = 0;
-        
-        foreach (var col in nearPlayer)
-        {
-            if (col.CompareTag("Enemy") && col.gameObject != gameObject)
-            {
-                enemiesNearPlayer++;
-            }
-        }
-        
-        return enemiesNearPlayer >= maxNearbyEnemies;
-    }
-
-    void CircleAroundPlayer()
-    {
-        // Make excess enemies circle around at a distance
-        Vector3 toPlayer = player.position - transform.position;
-        toPlayer.y = 0;
-        
-        Vector3 circlePosition = player.position + (toPlayer.normalized + personalOffset).normalized * (preAttackRange + 1f);
-        Vector3 moveDirection = (circlePosition - transform.position).normalized;
-        
-        // Add some perpendicular movement for circling
-        Vector3 perpendicular = Vector3.Cross(moveDirection, Vector3.up);
-        moveDirection += perpendicular * 0.3f;
-        
-        Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-        Quaternion smoothRotation = Quaternion.Slerp(rb.rotation, targetRotation, turnSpeed * Time.fixedDeltaTime);
-        rb.MoveRotation(smoothRotation);
-
-        Vector3 move = moveDirection * (moveSpeed * 0.7f) * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + move);
-    }
-
-    void FacePlayer()
-    {
-        Vector3 toPlayer = (player.position - transform.position);
-        toPlayer.y = 0; // Keep rotation on horizontal plane only
-        
-        if (toPlayer.magnitude > 0.01f) // Avoid issues when very close
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(toPlayer.normalized);
-            Quaternion smoothRotation = Quaternion.Slerp(rb.rotation, targetRotation, turnSpeed * Time.fixedDeltaTime);
-            rb.MoveRotation(smoothRotation);
-        }
-    }
-
-    void MoveWithOffsetAndSeparation()
-    {
-        Vector3 toPlayer = player.position - transform.position;
-        float distanceToPlayer = toPlayer.magnitude;
-        toPlayer.y = 0;
-        Vector3 forwardDir = toPlayer.normalized;
-
-        // Only apply lateral offset when outside of pre-attack range
-        Vector3 offset = Vector3.zero;
-        if (distanceToPlayer > preAttackRange + 0.5f) // Add a small buffer
-        {
-            if (Time.time > nextOffsetChangeTime)
-            {
-                int side = Random.Range(0, 3) - 1; // -1, 0, 1
-                lateralOffset = Quaternion.Euler(0, 90 * side, 0) * forwardDir * flankOffset;
-                nextOffsetChangeTime = Time.time + offsetChangeInterval;
-            }
-            offset = lateralOffset + personalOffset;
-        }
-        else
-        {
-            // Use personal offset when close to prevent identical paths
-            offset = personalOffset * 0.5f;
-        }
-
-        // Enhanced separation force - always apply but stronger when close
-        Vector3 separation = CalculateSeparation(distanceToPlayer);
-
-        Vector3 desiredDirection = (toPlayer + offset + separation).normalized;
-
-        Quaternion targetRotation = Quaternion.LookRotation(desiredDirection);
-        Quaternion smoothRotation = Quaternion.Slerp(rb.rotation, targetRotation, turnSpeed * Time.fixedDeltaTime);
-        rb.MoveRotation(smoothRotation);
-
-        Vector3 move = rb.transform.forward * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + move);
-    }
-
-    Vector3 CalculateSeparation(float distanceToPlayer)
-    {
+        // ─ Separation
         Vector3 separation = Vector3.zero;
-        Collider[] nearby = Physics.OverlapSphere(transform.position, separationRadius);
-        
-        foreach (var col in nearby)
+        foreach (Collider c in Physics.OverlapSphere(transform.position, separationRadius, enemyLayer))
         {
-            if (col.gameObject != gameObject && col.CompareTag("Enemy"))
+            if (c.gameObject == gameObject) continue;
+            Vector3 away = transform.position - c.transform.position;
+            float dist = away.magnitude;
+            if (dist > 0f) separation += away.normalized / dist;
+        }
+
+        // ─ Wobble
+        wobbleTimer += Time.fixedDeltaTime * wobbleSpeed;
+        Vector3 right = Vector3.Cross(dirToPlayer, Vector3.up);
+        float offset = Mathf.Sin(wobbleTimer) * wobbleAmount;
+
+        Vector3 moveDir = dirToPlayer + right * offset + separation * separationStrength;
+
+        // ─ Obstacle Avoidance with SphereCast
+        Vector3 avoidance = Vector3.zero;
+        Vector3 origin = transform.position + Vector3.up * 0.5f;
+
+        Vector3[] castDirs =
+        {
+            moveDir.normalized,
+            Quaternion.Euler(0f, 30f, 0f) * moveDir.normalized,
+            Quaternion.Euler(0f,-30f, 0f) * moveDir.normalized
+        };
+
+        foreach (Vector3 d in castDirs)
+        {
+            if (Physics.SphereCast(origin, sphereRadius, d, out RaycastHit hit, avoidDistance, obstacleLayer))
             {
-                Vector3 away = transform.position - col.transform.position;
-                float distance = away.magnitude;
-                
-                if (distance < minSeparationDistance)
-                {
-                    // Much stronger separation when too close
-                    float strength = separationStrength * 3f * (minSeparationDistance - distance);
-                    separation += away.normalized * strength;
-                }
-                else if (distance > 0.01f)
-                {
-                    // Normal separation
-                    float strength = separationStrength / distance;
-                    separation += away.normalized * strength;
-                }
+                Vector3 away = Vector3.Reflect(d, hit.normal);
+                away.y = 0f;
+                avoidance += away;
             }
         }
-        
-        // Reduce separation when very close to player (but don't disable completely)
-        if (distanceToPlayer <= preAttackRange + 0.5f)
+
+        if (avoidance.sqrMagnitude > 0f)
         {
-            separation *= 0.3f;
+            moveDir = Vector3.Lerp(moveDir, avoidance.normalized, avoidStrength * Time.fixedDeltaTime);
         }
-        
-        return separation;
+
+        moveDir = moveDir.normalized;
+
+        // ─ Movement
+        if (Vector3.Distance(rb.position, player.position) > stopDistance)
+        {
+            rb.MovePosition(rb.position + moveDir * moveSpeed * Time.fixedDeltaTime);
+        }
+
+        // ─ Facing
+        Vector3 flatLookDir = new Vector3(dirToPlayer.x, 0f, dirToPlayer.z);
+        if (flatLookDir.sqrMagnitude > 0f)
+            rb.MoveRotation(Quaternion.LookRotation(flatLookDir));
     }
 
-    void TryAttackPlayer()
+    void MeleeAttack()
     {
-        if (Time.time - lastAttackTime < attackCooldown) return;
+        // Placeholder: you could apply damage here
+        Debug.Log("Melee Attack!");
 
-        lastAttackTime = Time.time;
+        // Example: Check for player hit
+        if (Vector3.Distance(transform.position, player.position) <= stopDistance + 0.5f)
+        {
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
+        }
 
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        if (playerHealth != null)
-            playerHealth.TakeDamage(attackDamage);
+        // You could add an animation, sound, or effect here
     }
 }

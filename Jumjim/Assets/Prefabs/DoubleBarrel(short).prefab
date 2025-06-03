@@ -246,9 +246,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 1
   damage: 10
-  range: 100
+  range: 50
   pelletCount: 20
-  spreadAngle: 7
+  spreadAngle: 5
   isAutomatic: 0
   weaponName: SuperShotgun
   muzzleFlash: {fileID: 5642256494443016834}
@@ -270,7 +270,7 @@ MonoBehaviour:
   recoilX: 16
   recoilY: 11
   recoilZ: 8
-  maxAmmo: 20
+  maxAmmo: 16
   currentAmmo: 0
   infiniteAmmo: 0
   ammoText: {fileID: 0}

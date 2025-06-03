@@ -5661,10 +5661,10 @@ MonoBehaviour:
   maxRecoil: 15
   recoilDecay: 5
   randomnessFactor: 0.1
-  recoilX: 3.5
-  recoilY: 2.5
-  recoilZ: 1.5
-  maxAmmo: 90
+  recoilX: 2.5
+  recoilY: 2
+  recoilZ: 1
+  maxAmmo: 60
   currentAmmo: 0
   infiniteAmmo: 0
   ammoText: {fileID: 0}

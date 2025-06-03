@@ -6065,9 +6065,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 1
   damage: 10
-  range: 50
+  range: 100
   pelletCount: 8
-  spreadAngle: 8
+  spreadAngle: 6
   isAutomatic: 0
   weaponName: Shotgun
   muzzleFlash: {fileID: 721949011911412973}
@@ -6089,7 +6089,7 @@ MonoBehaviour:
   recoilX: 12
   recoilY: 7
   recoilZ: 5
-  maxAmmo: 30
+  maxAmmo: 24
   currentAmmo: 0
   infiniteAmmo: 0
   ammoText: {fileID: 0}

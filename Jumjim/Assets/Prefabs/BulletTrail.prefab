@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5281921101364539049}
   - component: {fileID: 6363169276129756628}
+  - component: {fileID: -6552376239121052278}
   m_Layer: 0
   m_Name: BulletTrail
   m_TagString: Untagged
@@ -136,3 +137,15 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-6552376239121052278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4843799273032920906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3edc1e1f3d14b842a7671577fd0c6c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
