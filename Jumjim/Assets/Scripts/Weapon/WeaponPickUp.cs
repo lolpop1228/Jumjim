@@ -4,6 +4,12 @@ public class WeaponPickup : MonoBehaviour
 {
     public GameObject weaponPrefab;
     public AudioClip pickupSound;
+    public float spinSpeed = 90f; // Degrees per second
+
+    void Update()
+    {
+        transform.Rotate(Vector3.up, spinSpeed * Time.deltaTime, Space.World);
+    }
 
     void OnTriggerEnter(Collider other)
     {

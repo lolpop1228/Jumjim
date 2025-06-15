@@ -6,8 +6,12 @@ public class Rocket : MonoBehaviour
     public GameObject explosionEffect;
     public float explosionRadius = 5f;
     public float explosionDamage = 100f;
+    public int playerDamage = 50;
     public LayerMask damageableLayers;
-    public string[] explodeOnTags = { "Ground", "Wall", "Enemy", };
+    public string[] explodeOnTags = { "Ground", "Wall", "Enemy" };
+
+    public AudioClip explosionSound;
+    public float explosionVolume = 1f;
 
     void Start()
     {
@@ -29,20 +33,40 @@ public class Rocket : MonoBehaviour
 
     void Explode()
     {
+        // Play explosion sound loud & clear
+        if (explosionSound != null)
+        {
+            GameObject soundObj = new GameObject("ExplosionSound");
+            soundObj.transform.position = transform.position;
+
+            AudioSource source = soundObj.AddComponent<AudioSource>();
+            source.clip = explosionSound;
+            source.volume = explosionVolume;
+            source.spatialBlend = 1f; // 3D
+            source.minDistance = 5f;
+            source.maxDistance = 30f;
+            source.rolloffMode = AudioRolloffMode.Linear;
+            source.Play();
+
+            Destroy(soundObj, explosionSound.length);
+        }
+
         // Spawn explosion effect
         if (explosionEffect != null)
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
 
-        // Find objects in radius
+        // Damage logic...
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius, damageableLayers);
         foreach (Collider hit in hitColliders)
         {
-            // Try to apply damage if the object has a health script
-            EnemyHealth target = hit.GetComponent<EnemyHealth>();
-            if (target != null)
-            {
-                target.TakeDamage(explosionDamage);
-            }
+            EnemyHealth enemy = hit.GetComponent<EnemyHealth>();
+            PlayerHealth player = hit.GetComponent<PlayerHealth>();
+
+            if (enemy != null)
+                enemy.TakeDamage(explosionDamage);
+
+            if (player != null)
+                player.TakeDamage(playerDamage);
         }
 
         Destroy(gameObject);

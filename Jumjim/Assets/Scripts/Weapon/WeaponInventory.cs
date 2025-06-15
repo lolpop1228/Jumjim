@@ -24,6 +24,8 @@ public class WeaponInventory : MonoBehaviour
         MonoBehaviour weapon = weaponGO.GetComponent<HitscanGun>();
         if (weapon == null)
             weapon = weaponGO.GetComponent<Shotgun>();
+        if (weapon == null)
+            weapon = weaponGO.GetComponent<RocketLauncher>();
         
         if (weapon != null)
         {

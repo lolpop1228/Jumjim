@@ -12,6 +12,13 @@ public class Shotgun : MonoBehaviour
     public bool isAutomatic = false;
     public string weaponName = "";
 
+    [Header("Shotgun Jump")]
+    public float jumpForce = 20f;
+    public float minAngleForJump = 45f; // Minimum downward angle to trigger jump
+    public float maxJumpDistance = 5f; // Maximum distance to ground for jump to work
+    public LayerMask groundLayerMask = -1; // What counts as ground for shotgun jumping
+    public bool enableShotgunJump = true;
+
     [Header("Effects")]
     public ParticleSystem muzzleFlash;
     public GameObject bulletTracerPrefab;
@@ -21,6 +28,7 @@ public class Shotgun : MonoBehaviour
 
     public AudioSource gunAudio;
     public AudioClip fireSound;
+    public AudioClip shotgunJumpSound; // Optional separate sound for shotgun jumps
     public Animator gunAnimator;
 
     [Header("References")]
@@ -45,6 +53,7 @@ public class Shotgun : MonoBehaviour
     public TextMeshProUGUI ammoText;
 
     private float nextTimeToFire = 0f;
+    private PlayerMovement playerMovement;
 
     void Start()
     {
@@ -53,6 +62,14 @@ public class Shotgun : MonoBehaviour
         gunAudio = GetComponentInParent<AudioSource>();
         cameraRecoil = transform.parent?.parent?.parent?.GetComponent<CameraRecoil>();
         playerCam = transform.parent?.parent?.GetComponent<Camera>();
+        
+        // Find PlayerMovement component
+        playerMovement = GetComponentInParent<PlayerMovement>();
+        if (playerMovement == null)
+        {
+            // Try to find it in the scene if not found in parent
+            playerMovement = FindObjectOfType<PlayerMovement>();
+        }
 
         GameObject ammoUI = GameObject.FindWithTag("AmmoUI");
         if (ammoUI != null)
@@ -107,9 +124,16 @@ public class Shotgun : MonoBehaviour
         currentAmmo = Mathf.Max(0, currentAmmo);
         UpdateAmmoUI();
 
+        // Check for shotgun jump before firing effects
+        bool performedShotgunJump = CheckAndPerformShotgunJump();
+
         gunAnimator?.SetTrigger("Fire");
         muzzleFlash?.Play();
-        gunAudio?.PlayOneShot(fireSound);
+        
+        // Play appropriate sound
+        AudioClip soundToPlay = (performedShotgunJump && shotgunJumpSound != null) ? shotgunJumpSound : fireSound;
+        gunAudio?.PlayOneShot(soundToPlay);
+        
         cameraRecoil?.FireRecoil();
 
         for (int i = 0; i < pelletCount; i++)
@@ -162,6 +186,55 @@ public class Shotgun : MonoBehaviour
                 }
             }
         }
+    }
+
+    bool CheckAndPerformShotgunJump()
+    {
+        if (!enableShotgunJump || playerMovement == null)
+            return false;
+
+        // Check if player is looking down enough
+        float downwardAngle = Vector3.Angle(playerCam.transform.forward, Vector3.down);
+        if (downwardAngle > minAngleForJump)
+            return false;
+
+        // Raycast to check if there's ground below within jump distance
+        Vector3 rayOrigin = playerCam.transform.position;
+        Vector3 rayDirection = playerCam.transform.forward;
+        
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, maxJumpDistance, groundLayerMask))
+        {
+            // Check if the hit surface is relatively horizontal (ground-like)
+            float surfaceAngle = Vector3.Angle(hit.normal, Vector3.up);
+            if (surfaceAngle < 45f) // Surface is relatively flat
+            {
+                // Perform the shotgun jump
+                ApplyShotgunJump();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void ApplyShotgunJump()
+    {
+        if (playerMovement == null)
+            return;
+
+        // Apply upward velocity
+        float currentYVelocity = playerMovement.GetYVelocity();
+        float newYVelocity = Mathf.Max(currentYVelocity, 0f) + jumpForce;
+        playerMovement.SetYVelocity(newYVelocity);
+
+        // Optional: Add some backward momentum to make it feel more realistic
+        Vector3 horizontalForward = Vector3.ProjectOnPlane(playerCam.transform.forward, Vector3.up).normalized;
+        Vector3 backwardForce = -horizontalForward * (jumpForce * 0.3f);
+        
+        // You might want to add this to PlayerMovement script if you want horizontal momentum
+        // For now, we'll just do the vertical jump
+        
+        Debug.Log("Shotgun Jump performed!");
     }
 
     Vector3 GetSpreadDirection()

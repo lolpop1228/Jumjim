@@ -36,4 +36,11 @@ public class CameraShake : MonoBehaviour
     {
         shakeTimer = shakeDuration;
     }
+
+    public void Shake(float magnitude, float duration)
+    {
+        shakeMagnitude = magnitude;
+        shakeDuration = duration;
+        shakeTimer = shakeDuration;
+    }
 }

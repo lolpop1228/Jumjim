@@ -248,16 +248,24 @@ MonoBehaviour:
   damage: 10
   range: 50
   pelletCount: 20
-  spreadAngle: 5
+  spreadAngle: 6
   isAutomatic: 0
   weaponName: SuperShotgun
+  jumpForce: 20
+  minAngleForJump: 45
+  maxJumpDistance: 8
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 1344
+  enableShotgunJump: 1
   muzzleFlash: {fileID: 5642256494443016834}
   bulletTracerPrefab: {fileID: 4843799273032920906, guid: ccc6b959ba7d10c438209a019d6b5800, type: 3}
-  enemyHitEffectPrefab: {fileID: 3169145786230463210, guid: 8299354f942ae2948969d9a48658c668, type: 3}
+  enemyHitEffectPrefab: {fileID: 0}
   wallHitEffectPrefab: {fileID: 5625121803931735248, guid: 04c8c916b061da7499640374c4addb72, type: 3}
   defaultHitEffectPrefab: {fileID: 5625121803931735248, guid: 04c8c916b061da7499640374c4addb72, type: 3}
   gunAudio: {fileID: 0}
   fireSound: {fileID: 8300000, guid: b15825581e9bd0649b9fc7c46c7695e2, type: 3}
+  shotgunJumpSound: {fileID: 0}
   gunAnimator: {fileID: 7003650562050623088}
   firePoint: {fileID: 3203988091782563440}
   playerCam: {fileID: 0}

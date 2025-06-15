@@ -9,6 +9,9 @@ TagManager:
   - Wall
   - AmmoUI
   - HealthUI
+  - ShotgunCrosshair
+  - NormalCrosshair
+  - ArmorUI
   layers:
   - Default
   - TransparentFX

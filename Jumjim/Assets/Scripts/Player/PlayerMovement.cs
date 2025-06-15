@@ -50,9 +50,10 @@ public class PlayerMovement : MonoBehaviour
     // Better ground detection for slopes
     private float groundCheckDistance = 0.2f;
     private bool isNearGround = false;
-    
+
     // Flag to track initialization
     private bool isInitialized = false;
+    private Vector3 externalVelocity;
 
     // Initialize components as early as possible
     void Awake()
@@ -66,14 +67,14 @@ public class PlayerMovement : MonoBehaviour
         if (!isInitialized)
             InitializeComponents();
     }
-    
+
     void OnEnable()
     {
         // Re-initialize when script is enabled (helps with older Unity versions)
         if (!isInitialized)
             InitializeComponents();
     }
-    
+
     private void InitializeComponents()
     {
         try
@@ -81,18 +82,18 @@ public class PlayerMovement : MonoBehaviour
             // Get required components
             if (controller == null)
                 controller = GetComponent<CharacterController>();
-            
+
             if (dash == null)
                 dash = GetComponent<PlayerDash>();
-            
+
             // Store camera start position
             if (cameraHolder != null)
                 camStartLocalPos = cameraHolder.localPosition;
-            
+
             // Ensure footstep audio source exists
             if (footstepAudioSource == null)
                 footstepAudioSource = GetComponent<AudioSource>();
-            
+
             isInitialized = true;
         }
         catch (System.Exception e)
@@ -111,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
             if (!isInitialized || controller == null)
                 return;
         }
-        
+
         bool grounded = controller.isGrounded;
 
         // Better ground detection for slopes - check slightly below the controller
@@ -143,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
                 if (footstepAudioSource && jumpClip)
                     footstepAudioSource.PlayOneShot(jumpClip);
             }
-            else
+            else if (yVelocity < 0f)
             {
                 yVelocity = -1f;
             }
@@ -153,8 +154,9 @@ public class PlayerMovement : MonoBehaviour
             yVelocity += gravity * Time.deltaTime;
         }
 
-        Vector3 move = velocity + Vector3.up * yVelocity;
+        Vector3 move = velocity + externalVelocity + Vector3.up * yVelocity;
         controller.Move(move * Time.deltaTime);
+        externalVelocity = Vector3.zero; // Reset after applying
 
         // Camera tilt - FIXED VERSION
         if (cameraHolder != null)
@@ -162,10 +164,10 @@ public class PlayerMovement : MonoBehaviour
             float horizontalInput = Input.GetAxisRaw("Horizontal");
             float targetTilt = horizontalInput * tiltAmount;
             if (invertTilt) targetTilt = -targetTilt;
-            
+
             // Smooth interpolation to target tilt
             currentTilt = Mathf.Lerp(currentTilt, targetTilt, tiltLerpSpeed * Time.deltaTime);
-            
+
             // Apply the tilt rotation - preserving existing X and Y rotations
             Vector3 currentRotation = cameraHolder.localEulerAngles;
             cameraHolder.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentTilt);
@@ -204,7 +206,7 @@ public class PlayerMovement : MonoBehaviour
         if (landingBounce)
             landingBounce.SetGrounded(grounded);
     }
-    
+
     // Methods for DoubleJump script to use
     public void SetYVelocity(float newYVelocity)
     {
@@ -215,22 +217,27 @@ public class PlayerMovement : MonoBehaviour
     {
         return yVelocity;
     }
-    
+
     // Additional helper methods for better integration
     public bool IsGrounded()
     {
         return controller != null ? controller.isGrounded : false;
     }
-    
+
     public bool IsNearGround()
     {
         return isNearGround;
     }
-    
+
     public CharacterController GetController()
     {
         if (controller == null)
             InitializeComponents();
         return controller;
+    }
+
+    public void SetExternalVelocity(Vector3 velocity)
+    {
+        externalVelocity = velocity;
     }
 }

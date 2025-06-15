@@ -2,9 +2,36 @@ using UnityEngine;
 
 public class AmmoPickup : MonoBehaviour
 {
-    public string targetWeaponName; // Name of the weapon to add ammo to
+    public string[] targetWeaponNames; // Accepts multiple weapon names
     public int ammoAmount = 10;
+    public float lifeTime = 10f;
+    public float attractRange = 5f;
+    public float moveSpeed = 10f;
     public AudioClip pickupSound;
+    private Transform player;
+
+    void Start()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+        }
+
+        Destroy(transform.parent.gameObject, lifeTime);
+    }
+
+    void Update()
+    {
+        if (player == null) return;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= attractRange)
+        {
+            Vector3 direction = (player.position - transform.position).normalized;
+            transform.parent.position += direction * moveSpeed * Time.deltaTime;
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -16,43 +43,37 @@ public class AmmoPickup : MonoBehaviour
         foreach (var weapon in inventory.GetOwnedWeapons())
         {
             string weaponName = "";
-            bool canAddAmmo = false;
+            System.Action<int> addAmmoMethod = null;
 
-            // Check if it's a HitscanGun
             if (weapon is HitscanGun hitscanGun)
             {
                 weaponName = hitscanGun.weaponName;
-                if (weaponName == targetWeaponName)
-                {
-                    hitscanGun.AddAmmo(ammoAmount);
-                    canAddAmmo = true;
-                }
+                addAmmoMethod = hitscanGun.AddAmmo;
             }
-            // Check if it's a Shotgun
             else if (weapon is Shotgun shotgun)
             {
                 weaponName = shotgun.weaponName;
-                if (weaponName == targetWeaponName)
-                {
-                    shotgun.AddAmmo(ammoAmount);
-                    canAddAmmo = true;
-                }
+                addAmmoMethod = shotgun.AddAmmo;
+            }
+            else if (weapon is RocketLauncher rocketLauncher)
+            {
+                weaponName = rocketLauncher.weaponName;
+                addAmmoMethod = rocketLauncher.AddAmmo;
             }
 
-            if (canAddAmmo)
+            if (addAmmoMethod != null && System.Array.Exists(targetWeaponNames, name => name == weaponName))
             {
+                addAmmoMethod.Invoke(ammoAmount);
                 ammoAdded = true;
-                break; // Stop after adding to one weapon
             }
         }
 
-        // Only play sound and destroy if ammo was actually added
         if (ammoAdded)
         {
             if (pickupSound != null)
                 AudioSource.PlayClipAtPoint(pickupSound, transform.position);
 
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 }
