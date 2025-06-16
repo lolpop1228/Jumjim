@@ -87,13 +87,17 @@ public class DoubleJump : MonoBehaviour
         }
         
         // Reset jump count when grounded
-        if (isGrounded && !wasGroundedLastFrame)
+        if (isGrounded)
         {
             currentJumps = 0;
         }
-        
-        // Handle jump input
-        if (Input.GetButtonDown("Jump"))
+        else if (!isGrounded && !isNearGround && wasGroundedLastFrame && currentJumps == 0)
+        {
+            currentJumps = 1;
+        }
+
+            // Handle jump input
+            if (Input.GetButtonDown("Jump"))
         {
             HandleJumpInput(isGrounded, isNearGround);
         }
@@ -214,5 +218,11 @@ public class DoubleJump : MonoBehaviour
             GUI.Label(new Rect(10, 30, 200, 20), $"Coyote: {coyoteTimer:F2}");
             GUI.Label(new Rect(10, 50, 200, 20), $"Air Boost: {airJumpBoostTimer:F2}");
         }
+    }
+
+    public void ForceUseJump()
+    {
+        if (currentJumps == 0)
+            currentJumps = 1;
     }
 }

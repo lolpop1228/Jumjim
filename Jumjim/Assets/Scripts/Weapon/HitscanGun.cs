@@ -70,6 +70,14 @@ public class HitscanGun : MonoBehaviour
 
     void OnEnable()
     {
+        if (ammoText == null)
+        {
+            GameObject ammoUI = GameObject.FindWithTag("AmmoUI");
+            if (ammoUI != null)
+            {
+                ammoText = ammoUI.GetComponent<TextMeshProUGUI>();
+            }
+        }
         UpdateAmmoUI();
         if (cameraRecoil != null)
         {
@@ -181,7 +189,10 @@ public class HitscanGun : MonoBehaviour
     public void AddAmmo(int amount)
     {
         currentAmmo = Mathf.Min(currentAmmo + amount, maxAmmo);
-        UpdateAmmoUI();
+        if (gameObject.activeInHierarchy)
+        {
+            UpdateAmmoUI();
+        }
     }
 
     void UpdateAmmoUI()

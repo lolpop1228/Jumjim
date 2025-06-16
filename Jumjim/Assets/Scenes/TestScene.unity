@@ -1231,8 +1231,8 @@ MonoBehaviour:
   jumpForce: 10
   airControlFactor: 0.6
   cameraHolder: {fileID: 1762275790}
-  bobFrequency: 18
-  bobAmplitude: 0.2
+  bobFrequency: 20
+  bobAmplitude: 0.1
   bobLerpSpeed: 10
   tiltAmount: 12
   tiltLerpSpeed: 2
@@ -2193,7 +2193,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -4150,7 +4150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1255457894
 Transform:
   m_ObjectHideFlags: 0
@@ -4182,9 +4182,10 @@ MonoBehaviour:
   - {fileID: 4612715932376705400, guid: 79e0c423732012d4687fd5f917258874, type: 3}
   - {fileID: 3212585104886520022, guid: d17cb6df36a1a6640a26a2b346542929, type: 3}
   - {fileID: 2226544412996385665, guid: 56fc9ae4196a08b41bcf42b605bb5613, type: 3}
+  - {fileID: 1085568008192166583, guid: a8fb835c54065294485031d2b0246572, type: 3}
   spawnCenter: {fileID: 1329888648}
   spawnRadius: 42.3
-  enemiesToSpawn: 50
+  enemiesToSpawn: 20
   spawnDelay: 1.5
   autoSpawnOnStart: 1
   minDistanceBetweenSpawns: 8
@@ -5199,7 +5200,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 13.5, y: -490.04}
-  m_SizeDelta: {x: 176.23, y: 50}
+  m_SizeDelta: {x: 167.27, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1830424507
 MonoBehaviour:
@@ -5254,7 +5255,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

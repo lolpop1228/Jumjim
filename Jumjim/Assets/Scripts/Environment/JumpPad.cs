@@ -14,6 +14,12 @@ public class JumpPad : MonoBehaviour
             // Apply vertical velocity (replace with your own method if needed)
             player.SetYVelocity(jumpForce);
 
+            DoubleJump doubleJump = other.GetComponent<DoubleJump>();
+            if (doubleJump != null && doubleJump.GetCurrentJumps() == 0)
+            {
+                doubleJump.ForceUseJump();
+            }
+
             // Optional: play sound
             if (jumpPadSound)
                 AudioSource.PlayClipAtPoint(jumpPadSound, transform.position);

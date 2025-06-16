@@ -129,7 +129,10 @@ public class RocketLauncher : MonoBehaviour
     public void AddAmmo(int amount)
     {
         currentAmmo = Mathf.Min(currentAmmo + amount, maxAmmo);
-        UpdateAmmoUI();
+        if (gameObject.activeInHierarchy)
+        {
+            UpdateAmmoUI();
+        }
     }
 
     void UpdateAmmoUI()
