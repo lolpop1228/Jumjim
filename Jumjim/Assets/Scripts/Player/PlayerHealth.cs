@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
 
     public int maxArmor = 100;
     public int currentArmor;
+    public float fallThreshold = -50f;
 
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI armorText; // Optional: assign this via tag or in inspector
@@ -45,6 +47,14 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         currentArmor = maxArmor;
         UpdateUI();
+    }
+
+    private void Update()
+    {
+        if (transform.position.y <= fallThreshold)
+        {
+            ReloadScene();
+        }
     }
 
     public void TakeDamage(int amount)
@@ -83,7 +93,7 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player died.");
-        // You can add death behavior here (respawn, reload, etc.)
+        ReloadScene();
     }
 
     public void HealPlayer(int amount)
@@ -137,5 +147,10 @@ public class PlayerHealth : MonoBehaviour
             c.a = alpha;
             hurtScreen.color = c;
         }
+    }
+
+    void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
