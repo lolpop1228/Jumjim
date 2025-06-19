@@ -60,6 +60,11 @@ public class AmmoPickup : MonoBehaviour
                 weaponName = rocketLauncher.weaponName;
                 addAmmoMethod = rocketLauncher.AddAmmo;
             }
+            else if (weapon is SkullCrusher skullCrusher)
+            {
+                weaponName = skullCrusher.weaponName;
+                addAmmoMethod = skullCrusher.AddAmmo;
+            }
 
             if (addAmmoMethod != null && System.Array.Exists(targetWeaponNames, name => name == weaponName))
             {

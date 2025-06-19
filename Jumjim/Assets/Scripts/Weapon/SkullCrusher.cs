@@ -1,17 +1,33 @@
+﻿using TMPro;
 using UnityEngine;
 
 public class SkullCrusher : MonoBehaviour
 {
     [Header("Gun Settings")]
-    public int pelletsPerShot = 12;
-    public float horizontalSpread = 15f;
-    public float verticalSpread = 2f;
-    public float fireRate = 1f;
+    public float fireRate = 0.5f;
+    public float damage = 10f;
+    public float range = 100f;
+    public string weaponName = "";
+    public bool isAutomatic = false;
+
+    [Header("Spread Shot Settings")]
+    public int rayCount = 20;
+    public float spreadAngle = 45f; // Horizontal arc
+
+    [Header("Effects")]
+    public ParticleSystem muzzleFlash;
+    public GameObject bulletTracerPrefab;
+    public GameObject enemyHitEffectPrefab;
+    public GameObject wallHitEffectPrefab;
+    public GameObject defaultHitEffectPrefab;
+
+    public AudioSource gunAudio;
+    public AudioClip fireSound;
+    public Animator gunAnimator;
 
     [Header("References")]
     public Transform firePoint;
-    public GameObject pelletPrefab; // Assign your pellet projectile prefab
-    public ParticleSystem muzzleFlash;
+    public Camera playerCam;
 
     [Header("Recoil")]
     public CameraRecoil cameraRecoil;
@@ -24,11 +40,29 @@ public class SkullCrusher : MonoBehaviour
     public float recoilY;
     public float recoilZ;
 
-    private float nextFireTime = 0f;
+    [Header("Ammo")]
+    public int maxAmmo = 10;
+    public int currentAmmo;
+    public bool infiniteAmmo = false;
+    public TextMeshProUGUI ammoText;
+
+    private float nextTimeToFire = 0f;
 
     void Start()
     {
+        currentAmmo = maxAmmo;
+
+        gunAudio = GetComponentInParent<AudioSource>();
         cameraRecoil = transform.parent?.parent?.parent?.GetComponent<CameraRecoil>();
+        playerCam = transform.parent?.parent?.GetComponent<Camera>();
+
+        GameObject ammoUI = GameObject.FindWithTag("AmmoUI");
+        if (ammoUI != null)
+        {
+            ammoText = ammoUI.GetComponent<TextMeshProUGUI>();
+        }
+        UpdateAmmoUI();
+
         if (cameraRecoil != null)
         {
             cameraRecoil.recoilSpeed = recoilSpeed;
@@ -43,6 +77,8 @@ public class SkullCrusher : MonoBehaviour
 
     void OnEnable()
     {
+        UpdateAmmoUI();
+
         if (cameraRecoil != null)
         {
             cameraRecoil.recoilSpeed = recoilSpeed;
@@ -57,33 +93,113 @@ public class SkullCrusher : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
+        bool shouldFire = isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1");
+
+        if (shouldFire && Time.time >= nextTimeToFire && (infiniteAmmo || currentAmmo > 0))
         {
+            nextTimeToFire = Time.time + fireRate;
             Fire();
-            nextFireTime = Time.time + 1f / fireRate;
         }
     }
 
     void Fire()
     {
-        if (muzzleFlash) muzzleFlash.Play();
-        if (cameraRecoil != null)
+        if (!infiniteAmmo)
         {
-            cameraRecoil.FireRecoil();
+            currentAmmo--;
         }
+        currentAmmo = Mathf.Max(0, currentAmmo);
+        UpdateAmmoUI();
 
-        for (int i = 0; i < pelletsPerShot; i++)
+        gunAnimator?.SetTrigger("Fire");
+        muzzleFlash?.Play();
+        gunAudio?.PlayOneShot(fireSound);
+        cameraRecoil?.FireRecoil();
+
+        for (int i = 0; i < rayCount; i++)
         {
-            Vector3 direction = GetHorizontalSpreadDirection();
-            GameObject pellet = Instantiate(pelletPrefab, firePoint.position, Quaternion.LookRotation(direction));
+            Vector3 direction = GetHorizontalSpreadDirection(playerCam.transform.forward, spreadAngle);
+            Vector3 origin = playerCam.transform.position;
+            Vector3 hitPoint = origin + direction * range;
+
+            if (Physics.Raycast(origin, direction, out RaycastHit hit, range))
+            {
+                hitPoint = hit.point;
+
+                GameObject hitObject = hit.collider.gameObject;
+                EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage);
+                }
+
+                GameObject selectedEffect = null;
+                if (hitObject.CompareTag("Enemy"))
+                {
+                    selectedEffect = enemyHitEffectPrefab;
+                }
+                else if (hitObject.CompareTag("Wall"))
+                {
+                    selectedEffect = wallHitEffectPrefab;
+                }
+                else if (hitObject.CompareTag("Ground"))
+                {
+                    selectedEffect = defaultHitEffectPrefab;
+                }
+
+                if (selectedEffect != null)
+                {
+                    GameObject impactGO = Instantiate(selectedEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                    Destroy(impactGO, 1f);
+                }
+            }
+
+            // Show tracer for first few rays only
+            if (bulletTracerPrefab != null && firePoint != null && i < 5)
+            {
+                GameObject tracer = Instantiate(bulletTracerPrefab);
+                LineRenderer line = tracer.GetComponent<LineRenderer>();
+                if (line != null)
+                {
+                    line.SetPosition(0, firePoint.position);
+                    line.SetPosition(1, hitPoint);
+                    StartCoroutine(DestroyLineAfter(line, 0.05f));
+                }
+            }
+
+            // Debug Ray (optional)
+            // Debug.DrawRay(origin, direction * range, Color.red, 1f);
         }
     }
 
-    Vector3 GetHorizontalSpreadDirection()
+    Vector3 GetHorizontalSpreadDirection(Vector3 forward, float angle)
     {
-        float yaw = Random.Range(-horizontalSpread, horizontalSpread);
-        float pitch = Random.Range(-verticalSpread, verticalSpread);
-        Quaternion spreadRot = Quaternion.Euler(pitch, yaw, 0);
-        return spreadRot * firePoint.forward;
+        // Only apply yaw (horizontal) spread
+        float randomYaw = Random.Range(-angle / 2f, angle / 2f);
+        Quaternion rotation = Quaternion.Euler(0f, randomYaw, 0f); // Y-axis only
+        return rotation * forward;
+    }
+
+    System.Collections.IEnumerator DestroyLineAfter(LineRenderer line, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        if (line != null)
+            Destroy(line.gameObject);
+    }
+
+    public void AddAmmo(int amount)
+    {
+        currentAmmo = Mathf.Min(currentAmmo + amount, maxAmmo);
+        if (gameObject.activeInHierarchy)
+        {
+            UpdateAmmoUI();
+        }
+    }
+
+    void UpdateAmmoUI()
+    {
+        if (ammoText == null) return;
+
+        ammoText.text = infiniteAmmo ? "∞" : $"Ammo:{currentAmmo}";
     }
 }
