@@ -207,6 +207,7 @@ MonoBehaviour:
   - AssaultRifle
   - Sniper
   - SuperShotgun
+  - Blaster
   ammoAmount: 5
   lifeTime: 5
   attractRange: 8
