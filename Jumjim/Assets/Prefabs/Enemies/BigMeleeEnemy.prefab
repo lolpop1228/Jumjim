@@ -314,7 +314,7 @@ MonoBehaviour:
   stopDistance: 2
   attackCooldown: 2
   damage: 15
-  separationRadius: 7
+  separationRadius: 10
   separationStrength: 2.5
   enemyLayer:
     serializedVersion: 2

@@ -347,7 +347,7 @@ MonoBehaviour:
   projectileSpawnPoint: {fileID: 6846523407175020649}
   projectileSpeed: 10
   attackCooldown: 1.5
-  separationRadius: 8
+  separationRadius: 10
   separationStrength: 2.5
   enemyLayer:
     serializedVersion: 2

@@ -189,12 +189,9 @@ MonoBehaviour:
   healthDropPrefab: {fileID: 3112471261465438101, guid: 3552a53d22321744bbee72daa68be6df, type: 3}
   healthDropChance: 0.5
   armorDropPrefab: {fileID: 1407949750665118907, guid: c0ac33f35c1b56246a5c9df041cd2dea, type: 3}
-  AIscript: {fileID: 977760710721003170}
   armorDropChance: 0.5
   healthDropAmountRange: {x: 1, y: 3}
   armorDropAmountRange: {x: 1, y: 2}
-  executeDropPrefab: {fileID: 3015828645614340230, guid: 934d4888881593c4f998d1d686427d3a, type: 3}
-  executeDropAmountRange: {x: 6, y: 6}
 --- !u!114 &977760710721003170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +222,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
-  separationRadius: 8
+  separationRadius: 12
   separationStrength: 2.5
   enemyLayer:
     serializedVersion: 2

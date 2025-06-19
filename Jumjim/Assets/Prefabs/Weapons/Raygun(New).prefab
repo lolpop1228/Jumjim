@@ -5786,7 +5786,7 @@ MonoBehaviour:
   rayCount: 30
   spreadAngle: 70
   muzzleFlash: {fileID: 9028680994788151308}
-  bulletTracerPrefab: {fileID: 4843799273032920906, guid: ccc6b959ba7d10c438209a019d6b5800, type: 3}
+  bulletTracerPrefab: {fileID: 4843799273032920906, guid: 5e620d8d509e300429c605f3d683c28a, type: 3}
   enemyHitEffectPrefab: {fileID: 3169145786230463210, guid: 8299354f942ae2948969d9a48658c668, type: 3}
   wallHitEffectPrefab: {fileID: 5625121803931735248, guid: 04c8c916b061da7499640374c4addb72, type: 3}
   defaultHitEffectPrefab: {fileID: 5625121803931735248, guid: 04c8c916b061da7499640374c4addb72, type: 3}
@@ -5801,9 +5801,9 @@ MonoBehaviour:
   maxRecoil: 15
   recoilDecay: 0.5
   randomnessFactor: 0.3
-  recoilX: 3
+  recoilX: 5
   recoilY: 3
-  recoilZ: 1.5
+  recoilZ: 2
   maxAmmo: 50
   currentAmmo: 0
   infiniteAmmo: 0
