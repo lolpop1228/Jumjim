@@ -6066,7 +6066,7 @@ MonoBehaviour:
   fireRate: 1
   damage: 10
   range: 100
-  pelletCount: 8
+  pelletCount: 10
   spreadAngle: 5
   isAutomatic: 0
   weaponName: Shotgun
@@ -6090,7 +6090,7 @@ MonoBehaviour:
   playerCam: {fileID: 0}
   cameraRecoil: {fileID: 0}
   recoilSpeed: 25
-  returnSpeed: 10
+  returnSpeed: 5
   maxRecoil: 15
   recoilDecay: 5
   randomnessFactor: 0.3

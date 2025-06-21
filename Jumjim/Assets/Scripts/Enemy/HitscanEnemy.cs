@@ -29,9 +29,13 @@ public class HitscanEnemy : MonoBehaviour
     public float separationStrength = 2f;
     public LayerMask enemyLayer;
 
+    [Header("Climbing")]
+    public float climbCheckDistance = 1.2f;
+    public float climbSpeed = 3f;
 
     private Rigidbody rb;
     private float fireTimer;
+    private bool isClimbing;
 
     // ─────────────────────────────────────────────────────────────
     void Start()
@@ -52,7 +56,7 @@ public class HitscanEnemy : MonoBehaviour
         if (player == null) return;
 
         fireTimer -= Time.deltaTime;
-        if (fireTimer <= 0f && Vector3.Distance(transform.position, player.position) <= stopDistance)
+        if (fireTimer <= 0f && Vector3.Distance(transform.position, player.position) <= stopDistance && CanSeePlayer())
         {
             FireRaycast();
             fireTimer = fireRate;
@@ -76,11 +80,24 @@ public class HitscanEnemy : MonoBehaviour
             if (dist > 0f) separation += away.normalized / dist;
         }
 
+        // ─ Climb check
+        Vector3 climbOrigin = transform.position + Vector3.up * 0.5f;
+        isClimbing = Physics.Raycast(climbOrigin, direction, climbCheckDistance, obstacleLayer);
+
+        // Prevent endless climb if near player height
+        if (player.position.y - transform.position.y < 0.5f)
+            isClimbing = false;
+
+        if (isClimbing)
+        {
+            Vector3 climbDir = (Vector3.up + direction).normalized;
+            rb.MovePosition(rb.position + climbDir * climbSpeed * Time.fixedDeltaTime);
+            return;
+        }
+
         // ─ Obstacle avoidance
         Vector3 avoidance = Vector3.zero;
-        Vector3 origin = transform.position + Vector3.up * 0.5f;
-
-        if (Physics.SphereCast(origin, sphereRadius, direction, out RaycastHit hit, avoidDistance, obstacleLayer))
+        if (Physics.SphereCast(climbOrigin, sphereRadius, direction, out RaycastHit hit, avoidDistance, obstacleLayer))
         {
             Vector3 away = Vector3.Reflect(direction, hit.normal);
             away.y = 0f;
@@ -99,7 +116,7 @@ public class HitscanEnemy : MonoBehaviour
             rb.MovePosition(rb.position + finalDir * moveSpeed * Time.fixedDeltaTime);
         }
 
-        // Face the player
+        // ─ Face the player
         Vector3 look = new Vector3(direction.x, 0f, direction.z);
         if (look.sqrMagnitude > 0f)
             rb.MoveRotation(Quaternion.LookRotation(look));
@@ -114,7 +131,6 @@ public class HitscanEnemy : MonoBehaviour
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, raycastRange, hitLayers))
         {
-            // Apply damage here, e.g., hit.collider.GetComponent<Health>()?.TakeDamage();
             PlayerHealth ph = hit.collider.GetComponent<PlayerHealth>();
             if (ph != null)
             {
@@ -122,22 +138,32 @@ public class HitscanEnemy : MonoBehaviour
             }
 
             if (impactEffectPrefab)
-                {
-                    Instantiate(impactEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
-                }
+                Instantiate(impactEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
 
             if (bulletTrailPrefab)
-            {
                 StartCoroutine(SpawnTrail(origin, hit.point));
-            }
         }
         else
         {
             if (bulletTrailPrefab)
-            {
                 StartCoroutine(SpawnTrail(origin, origin + direction * raycastRange));
-            }
         }
+    }
+
+    bool CanSeePlayer()
+    {
+        if (!player) return false;
+
+        Vector3 origin = shootOrigin ? shootOrigin.position : transform.position + Vector3.up * 0.5f;
+        Vector3 target = player.position + Vector3.up * 0.5f;
+        Vector3 direction = (target - origin).normalized;
+
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, raycastRange, hitLayers | obstacleLayer))
+        {
+            return hit.transform == player;
+        }
+
+        return false;
     }
 
     IEnumerator SpawnTrail(Vector3 start, Vector3 end)

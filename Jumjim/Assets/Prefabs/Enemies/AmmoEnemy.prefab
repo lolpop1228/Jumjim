@@ -218,7 +218,7 @@ MonoBehaviour:
   wobbleSpeed: 2
   avoidDistance: 4
   avoidStrength: 8
-  sphereRadius: 2
+  sphereRadius: 5
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256

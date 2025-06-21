@@ -217,7 +217,7 @@ MonoBehaviour:
   bulletTrailPrefab: {fileID: 6363169276129756628, guid: ccc6b959ba7d10c438209a019d6b5800, type: 3}
   impactEffectPrefab: {fileID: 0}
   avoidDistance: 3
-  sphereRadius: 0.5
+  sphereRadius: 6
   avoidStrength: 10
   obstacleLayer:
     serializedVersion: 2
