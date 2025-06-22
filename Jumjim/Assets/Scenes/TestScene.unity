@@ -4966,7 +4966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 1049366928526818044, guid: 265938f81cc2b164086ff29c0f25ce20, type: 3}
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
   spinSpeed: 90
 --- !u!43 &1584623977
 Mesh:
@@ -8291,7 +8291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 4112341348334923745, guid: 0c46ade0f85cc424987ee62985a3b6d1, type: 3}
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
   spinSpeed: 90
 --- !u!1 &799912669790224681
 GameObject:
@@ -8510,7 +8510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 7471028123670052198, guid: ec82c604288af1d4f8081c799c0e4aa3, type: 3}
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
   spinSpeed: 90
 --- !u!23 &932230870198690667
 MeshRenderer:
@@ -11116,7 +11116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 7437412935759275476, guid: de1c8aee5b69e824999829a286c0e8d3, type: 3}
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
   spinSpeed: 90
 --- !u!23 &4020487626285417733
 MeshRenderer:
@@ -11615,7 +11615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 845756546728184520, guid: ed434bb5d1a60b5469694a7643c1e056, type: 3}
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
   spinSpeed: 90
 --- !u!23 &4539702729022759868
 MeshRenderer:
@@ -13893,7 +13893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 6483358358849760461, guid: d2fa26328f3d11e4d949713e0ec52e8d, type: 3}
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
   spinSpeed: 90
 --- !u!23 &7388639414145779550
 MeshRenderer:
@@ -14746,7 +14746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 9092686159880375973, guid: 27140b342168c25418e7a2d9fe34e432, type: 3}
-  pickupSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
   spinSpeed: 90
 --- !u!33 &8216883990747772286
 MeshFilter:

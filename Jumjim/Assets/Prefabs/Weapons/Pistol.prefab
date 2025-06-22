@@ -5871,7 +5871,7 @@ MonoBehaviour:
   wallHitEffectPrefab: {fileID: 5625121803931735248, guid: 04c8c916b061da7499640374c4addb72, type: 3}
   defaultHitEffectPrefab: {fileID: 5625121803931735248, guid: 04c8c916b061da7499640374c4addb72, type: 3}
   gunAudio: {fileID: 0}
-  fireSound: {fileID: 8300000, guid: 07312b20b71f3b2458407a4a2e3f70a7, type: 3}
+  fireSound: {fileID: 8300000, guid: 1ae1ad924cebe9a41b2953cba416984f, type: 3}
   gunAnimator: {fileID: 4195474488672916181}
   firePoint: {fileID: 1207304880771234849}
   playerCam: {fileID: 0}
