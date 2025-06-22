@@ -12,6 +12,15 @@ TagManager:
   - ShotgunCrosshair
   - NormalCrosshair
   - ArmorUI
+  - Start
+  - Combat
+  - Shop
+  - Treasure
+  - Boss
+  - PlayerSpawn
+  - PortalSpawn
+  - RoomEntrance
+  - DungeonGenerator
   layers:
   - Default
   - TransparentFX

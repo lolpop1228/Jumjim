@@ -18,8 +18,13 @@ public class WeaponPickup : MonoBehaviour
         {
             inv.AddWeapon(weaponPrefab);
 
-            if (pickupSound)
-                AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+            AudioSource audioSource = other.GetComponent<AudioSource>();
+            {
+                if (audioSource != null && pickupSound != null)
+                {
+                    audioSource.PlayOneShot(pickupSound);
+                }
+            }
 
             Destroy(gameObject);
         }
