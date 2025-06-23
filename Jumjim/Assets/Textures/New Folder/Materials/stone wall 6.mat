@@ -33,5 +33,5 @@ Material:
     - _LightSteps: 4
     - _Metallic: 0
     m_Colors:
-    - _Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+    - _Color: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
   m_BuildTextureStacks: []
