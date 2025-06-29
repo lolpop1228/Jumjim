@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8409448600995157917}
   - component: {fileID: 7396847001890878598}
   - component: {fileID: 2565896249975921370}
-  - component: {fileID: 4552111837995348158}
+  - component: {fileID: 8687897852195658169}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4552111837995348158
+--- !u!114 &8687897852195658169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,6 +115,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 820913167881707167}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ee9c851ba4a32a488061ab922f44882, type: 3}
+  m_Script: {fileID: 11500000, guid: 909f95315e457b645ac2b36393d2b2cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomPrefab: {fileID: 5994574087852230679, guid: d5867eee14dd68645a33a2d3ad5435b6, type: 3}
+  spawnOffset: {fileID: 0}
+  destroyCurrentRoom: 1

@@ -21,6 +21,7 @@ TagManager:
   - PortalSpawn
   - RoomEntrance
   - DungeonGenerator
+  - StartRoom
   layers:
   - Default
   - TransparentFX

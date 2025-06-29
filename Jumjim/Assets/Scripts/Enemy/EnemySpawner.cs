@@ -43,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
                 GameObject prefab = enemyPrefabs[prefabIndex];
                 prefabIndex = (prefabIndex + 1) % enemyPrefabs.Length;
 
-                Vector3 spawnAboveGround = spawnPos + Vector3.up * 1.5f; // adjust if needed
+                Vector3 spawnAboveGround = spawnPos + Vector3.up * 1f; // adjust if needed
                 Instantiate(prefab, spawnAboveGround, Quaternion.identity);
                 usedSpawnPoints.Add(spawnPos);
                 spawned++;

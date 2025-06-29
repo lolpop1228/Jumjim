@@ -3025,7 +3025,7 @@ MonoBehaviour:
   spawnCenter: {fileID: 934101159994873223}
   spawnRadius: 20
   enemiesToSpawn: 5
-  spawnDelay: 1.5
+  spawnDelay: 0
   autoSpawnOnStart: 1
   minDistanceBetweenSpawns: 8
   spawnRayHeight: 10
