@@ -4109,6 +4109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc51592a58b6a14aa5d897e625f49ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomType: 2
   roomEntrancePoint: {fileID: 7435117029477822063}
   portalSpawnPoint: {fileID: 5202651238356434947}
 --- !u!1 &8940533303161386275

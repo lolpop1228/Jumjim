@@ -61,7 +61,13 @@ public class DungeonGenerator : MonoBehaviour
             portal.GetComponent<Portal>().SetGenerator(this);
         }
 
-        // 6. Update last position
+        // 6. Destroy previous room
+        if (currentRoom != null)
+        {
+            Destroy(currentRoom.gameObject);
+        }
+
+        // 7. Update last position and current room
         currentRoom = newRoom;
         lastRoomPosition = spawnPosition;
     }
