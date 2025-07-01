@@ -22,6 +22,7 @@ TagManager:
   - RoomEntrance
   - DungeonGenerator
   - StartRoom
+  - HurtUI
   layers:
   - Default
   - TransparentFX

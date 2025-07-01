@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 909f95315e457b645ac2b36393d2b2cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPrefab: {fileID: 6945722337530099780, guid: fe267e636f63d6d45920f6e9d1a33efa, type: 3}
+  roomPrefab: {fileID: 3928774369715614258, guid: 83b22d2770c15fa47ab044dd829eff46, type: 3}
   spawnOffset: {fileID: 0}
   destroyCurrentRoom: 1
   teleportPlayerToEntrance: 1
