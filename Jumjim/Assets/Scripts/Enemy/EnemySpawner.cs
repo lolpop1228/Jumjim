@@ -19,12 +19,24 @@ public class EnemySpawner : MonoBehaviour
     public LayerMask groundLayer;
 
     private List<Vector3> usedSpawnPoints = new List<Vector3>();
+    private List<GameObject> spawnedEnemies = new List<GameObject>();
     private int prefabIndex = 0;
+    private bool enemiesDefeatedLogged = false;
 
     void Start()
     {
         if (autoSpawnOnStart)
             StartCoroutine(SpawnEnemies());
+    }
+
+    void Update()
+    {
+        // Check if all spawned enemies are dead
+        if (!enemiesDefeatedLogged && spawnedEnemies.Count > 0 && AllEnemiesDead())
+        {
+            Debug.Log("All enemies have been defeated!");
+            enemiesDefeatedLogged = true; // Prevent multiple logs
+        }
     }
 
     IEnumerator SpawnEnemies()
@@ -43,8 +55,9 @@ public class EnemySpawner : MonoBehaviour
                 GameObject prefab = enemyPrefabs[prefabIndex];
                 prefabIndex = (prefabIndex + 1) % enemyPrefabs.Length;
 
-                Vector3 spawnAboveGround = spawnPos + Vector3.up * 1f; // adjust if needed
-                Instantiate(prefab, spawnAboveGround, Quaternion.identity);
+                Vector3 spawnAboveGround = spawnPos + Vector3.up * 1f;
+                GameObject enemy = Instantiate(prefab, spawnAboveGround, Quaternion.identity);
+                spawnedEnemies.Add(enemy);
                 usedSpawnPoints.Add(spawnPos);
                 spawned++;
 
@@ -56,7 +69,11 @@ public class EnemySpawner : MonoBehaviour
     bool TryGetValidGroundPosition(out Vector3 groundPos)
     {
         Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
-        Vector3 rayStart = new Vector3(spawnCenter.position.x + randomCircle.x, spawnCenter.position.y + spawnRayHeight, spawnCenter.position.z + randomCircle.y);
+        Vector3 rayStart = new Vector3(
+            spawnCenter.position.x + randomCircle.x,
+            spawnCenter.position.y + spawnRayHeight,
+            spawnCenter.position.z + randomCircle.y
+        );
 
         if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, maxRaycastDistance, groundLayer))
         {
@@ -73,6 +90,16 @@ public class EnemySpawner : MonoBehaviour
         foreach (var used in usedSpawnPoints)
         {
             if (Vector3.Distance(pos, used) < minDistanceBetweenSpawns)
+                return false;
+        }
+        return true;
+    }
+
+    bool AllEnemiesDead()
+    {
+        foreach (var enemy in spawnedEnemies)
+        {
+            if (enemy != null)
                 return false;
         }
         return true;
