@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRate: 1
-  damage: 20
+  damage: 25
   range: 50
   pelletCount: 20
   spreadAngle: 6
