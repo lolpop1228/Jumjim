@@ -6,7 +6,9 @@ public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawning")]
     public GameObject[] enemyPrefabs;
+    public GameObject portalPrefab;
     public Transform spawnCenter;
+    public Transform portalSpawn;
     public float spawnRadius = 10f;
     public int enemiesToSpawn = 5;
     public float spawnDelay = 1f;
@@ -21,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
     private List<Vector3> usedSpawnPoints = new List<Vector3>();
     private List<GameObject> spawnedEnemies = new List<GameObject>();
     private int prefabIndex = 0;
-    private bool enemiesDefeatedLogged = false;
+    private bool portalSpawned = false; // Track if the portal has been spawned
 
     void Start()
     {
@@ -31,11 +33,12 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        // Check if all spawned enemies are dead
-        if (!enemiesDefeatedLogged && spawnedEnemies.Count > 0 && AllEnemiesDead())
+        // Check if all spawned enemies are dead and spawn portal
+        if (!portalSpawned && spawnedEnemies.Count > 0 && AllEnemiesDead())
         {
             Debug.Log("All enemies have been defeated!");
-            enemiesDefeatedLogged = true; // Prevent multiple logs
+            SpawnPortal();
+            portalSpawned = true; // Prevent multiple spawns
         }
     }
 
@@ -103,6 +106,19 @@ public class EnemySpawner : MonoBehaviour
                 return false;
         }
         return true;
+    }
+
+    void SpawnPortal()
+    {
+        if (portalPrefab != null && portalSpawn != null)
+        {
+            Instantiate(portalPrefab, portalSpawn.position, portalSpawn.rotation);
+            Debug.Log("Portal spawned!");
+        }
+        else
+        {
+            Debug.LogWarning("Portal prefab or portal spawn point is missing!");
+        }
     }
 
     void OnDrawGizmosSelected()

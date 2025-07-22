@@ -3724,7 +3724,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 7097450846396339952, guid: 23dc7747803dcea40a9363d5a0e3a5d0, type: 3}
+  portalPrefab: {fileID: 820913167881707167, guid: f831f0b77d8973e49887bf05a632cb6e, type: 3}
   spawnCenter: {fileID: 1067220443670480808}
+  portalSpawn: {fileID: 1067220443670480808}
   spawnRadius: 17.3
   enemiesToSpawn: 8
   spawnDelay: 0.5
