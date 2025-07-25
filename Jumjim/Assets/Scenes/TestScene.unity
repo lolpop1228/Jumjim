@@ -4421,7 +4421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1255457894
 Transform:
   m_ObjectHideFlags: 0
@@ -4454,7 +4454,9 @@ MonoBehaviour:
   - {fileID: 2226544412996385665, guid: 56fc9ae4196a08b41bcf42b605bb5613, type: 3}
   - {fileID: 7007199580507671371, guid: 7f5ea7226088e3b40bd59cd706ed1be9, type: 3}
   - {fileID: 3212585104886520022, guid: d17cb6df36a1a6640a26a2b346542929, type: 3}
+  portalPrefab: {fileID: 0}
   spawnCenter: {fileID: 1329888648}
+  portalSpawn: {fileID: 0}
   spawnRadius: 42.3
   enemiesToSpawn: 25
   spawnDelay: 1.5

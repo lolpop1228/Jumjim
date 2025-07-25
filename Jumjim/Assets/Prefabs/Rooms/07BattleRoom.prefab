@@ -722,7 +722,7 @@ GameObject:
   - component: {fileID: 8078203755306102996}
   m_Layer: 0
   m_Name: Cube (11)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1428,7 +1428,7 @@ GameObject:
   - component: {fileID: 3604417827506498429}
   m_Layer: 0
   m_Name: Cube (9)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2838,9 +2838,9 @@ GameObject:
   - component: {fileID: 2841046677525672580}
   - component: {fileID: 4678334039004202555}
   - component: {fileID: 5454000363416696591}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (6)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3177,6 +3177,68 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &4718931636232470035
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 405412196929053779}
+  m_Layer: 9
+  m_Name: SpawnCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &405412196929053779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718931636232470035}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.07875633, y: -1.75, z: 39.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4858923234051771290}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4879331212349121494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7460174587682604408}
+  m_Layer: 9
+  m_Name: SpawnPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7460174587682604408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4879331212349121494}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.07875633, y: -7.5, z: 59.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4858923234051771290}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5154446818797928977
 GameObject:
   m_ObjectHideFlags: 0
@@ -3546,7 +3608,7 @@ GameObject:
   - component: {fileID: 1599086978719403050}
   m_Layer: 0
   m_Name: Cube (12)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3898,7 +3960,8 @@ GameObject:
   - component: {fileID: 659970953990000954}
   - component: {fileID: 955394570749123125}
   - component: {fileID: 1563357208634033428}
-  m_Layer: 0
+  - component: {fileID: 4928057011806050518}
+  m_Layer: 6
   m_Name: 07BattleRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3934,6 +3997,8 @@ Transform:
   - {fileID: 6430963400697914689}
   - {fileID: 7561556599950289263}
   - {fileID: 8489897667427083454}
+  - {fileID: 7460174587682604408}
+  - {fileID: 405412196929053779}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8843802826827894246
@@ -5750,6 +5815,35 @@ MonoBehaviour:
   roomType: 1
   roomEntrancePoint: {fileID: 8489897667427083454}
   portalSpawnPoint: {fileID: 0}
+--- !u!114 &4928057011806050518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6207100134582271221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f592be0ddb879645b0ab3749fb163af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 7097450846396339952, guid: 23dc7747803dcea40a9363d5a0e3a5d0, type: 3}
+  - {fileID: 6654091153568698279, guid: 27ba5f7459eb76843b10b0566e97c440, type: 3}
+  - {fileID: 4032173042955939051, guid: 7f4e646526c87ee46bf6bc230674bb6a, type: 3}
+  portalPrefab: {fileID: 820913167881707167, guid: f831f0b77d8973e49887bf05a632cb6e, type: 3}
+  spawnCenter: {fileID: 405412196929053779}
+  portalSpawn: {fileID: 7460174587682604408}
+  spawnRadius: 20.3
+  enemiesToSpawn: 8
+  spawnDelay: 0.5
+  autoSpawnOnStart: 1
+  minDistanceBetweenSpawns: 4
+  spawnRayHeight: 10
+  maxRaycastDistance: 20
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &6352258448413744360
 GameObject:
   m_ObjectHideFlags: 0
@@ -6150,7 +6244,7 @@ GameObject:
   - component: {fileID: 8896738559644558969}
   m_Layer: 0
   m_Name: Cube (10)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

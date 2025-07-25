@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba26df072c61a04697bfe29715f209c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 5
+  healAmount: 3
   lifeTime: 3
   attractRange: 8
   moveSpeed: 50

@@ -33,6 +33,9 @@ public class HitscanEnemy : MonoBehaviour
     public float climbCheckDistance = 1.2f;
     public float climbSpeed = 3f;
 
+    [Header("Animation")]
+    public Animator animator;   // ← Added Animator
+
     private Rigidbody rb;
     private float fireTimer;
     private bool isClimbing;
@@ -48,6 +51,11 @@ public class HitscanEnemy : MonoBehaviour
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p) player = p.transform;
         }
+
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -56,10 +64,20 @@ public class HitscanEnemy : MonoBehaviour
         if (player == null) return;
 
         fireTimer -= Time.deltaTime;
-        if (fireTimer <= 0f && Vector3.Distance(transform.position, player.position) <= stopDistance && CanSeePlayer())
+
+        float dist = Vector3.Distance(transform.position, player.position);
+        animator?.SetBool("isMoving", dist > stopDistance);  // Update moving state
+
+        if (fireTimer <= 0f && dist <= stopDistance && CanSeePlayer())
         {
             FireRaycast();
             fireTimer = fireRate;
+
+            // Trigger shooting animation
+            if (animator != null)
+            {
+                animator.SetTrigger("shoot");
+            }
         }
     }
 

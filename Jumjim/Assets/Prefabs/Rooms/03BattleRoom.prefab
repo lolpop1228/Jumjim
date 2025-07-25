@@ -2923,6 +2923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 7097450846396339952, guid: 23dc7747803dcea40a9363d5a0e3a5d0, type: 3}
+  - {fileID: 6654091153568698279, guid: 27ba5f7459eb76843b10b0566e97c440, type: 3}
   portalPrefab: {fileID: 820913167881707167, guid: f831f0b77d8973e49887bf05a632cb6e, type: 3}
   spawnCenter: {fileID: 1943639005097117773}
   portalSpawn: {fileID: 2956469824996415094}
