@@ -118,6 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5f3d82b94869646baeb7bcef260aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 30
+  jumpForce: 25
   jumpPadSound: {fileID: 0}
   jumpEffect: {fileID: 0}

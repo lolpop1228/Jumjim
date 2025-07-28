@@ -6,7 +6,8 @@ public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawning")]
     public GameObject[] enemyPrefabs;
-    public GameObject portalPrefab;
+    public GameObject normalPortalPrefab;  // Normal portal prefab
+    public GameObject hardPortalPrefab;    // Hard portal prefab
     public Transform spawnCenter;
     public Transform portalSpawn;
     public float spawnRadius = 10f;
@@ -36,8 +37,20 @@ public class EnemySpawner : MonoBehaviour
         // Check if all spawned enemies are dead and spawn portal
         if (!portalSpawned && spawnedEnemies.Count > 0 && AllEnemiesDead())
         {
+            PlayerLevel playerLevel = FindObjectOfType<PlayerLevel>();
+            playerLevel.AddLevel(1);
             Debug.Log("All enemies have been defeated!");
-            SpawnPortal();
+
+            // Decide which portal to spawn based on player level
+            if (playerLevel.currentPlayerLevel < 5)
+            {
+                SpawnPortal(normalPortalPrefab);
+            }
+            else if (playerLevel.currentPlayerLevel >= 5)
+            {
+                SpawnPortal(hardPortalPrefab);
+            }
+
             portalSpawned = true; // Prevent multiple spawns
         }
     }
@@ -108,12 +121,12 @@ public class EnemySpawner : MonoBehaviour
         return true;
     }
 
-    void SpawnPortal()
+    void SpawnPortal(GameObject portalPrefab)
     {
         if (portalPrefab != null && portalSpawn != null)
         {
             Instantiate(portalPrefab, portalSpawn.position, portalSpawn.rotation);
-            Debug.Log("Portal spawned!");
+            Debug.Log(portalPrefab.name + " spawned!");
         }
         else
         {

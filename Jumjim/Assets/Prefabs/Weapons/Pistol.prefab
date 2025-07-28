@@ -5884,7 +5884,7 @@ MonoBehaviour:
   recoilX: 2
   recoilY: 2
   recoilZ: 1
-  maxAmmo: 30
+  maxAmmo: 60
   currentAmmo: 0
   infiniteAmmo: 0
   ammoText: {fileID: 0}

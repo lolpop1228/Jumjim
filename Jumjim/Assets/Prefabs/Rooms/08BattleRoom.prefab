@@ -353,6 +353,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &1066663217419753243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2403674640119985919}
+  m_Layer: 9
+  m_Name: SpawnPoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2403674640119985919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066663217419753243}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 91.73, y: -19.54, z: 23.11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8884573228762377883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1835729182602971394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1885,6 +1916,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &2887703975999009342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4197022705023511504}
+  m_Layer: 9
+  m_Name: SpawnPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4197022705023511504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2887703975999009342}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 55.83, y: -13.06, z: 23.11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8884573228762377883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3708189162198424989
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,6 +2315,7 @@ GameObject:
   - component: {fileID: 1204072802040750695}
   - component: {fileID: 5079847462011813482}
   - component: {fileID: 226397562908050299}
+  - component: {fileID: 2974083533669853880}
   m_Layer: 6
   m_Name: 08BattleRoom
   m_TagString: Ground
@@ -2287,6 +2350,8 @@ Transform:
   - {fileID: 4259537659843365681}
   - {fileID: 6111471906987086822}
   - {fileID: 3446620485266308401}
+  - {fileID: 4197022705023511504}
+  - {fileID: 2403674640119985919}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4649717394338961464
@@ -3581,6 +3646,36 @@ MonoBehaviour:
   roomType: 1
   roomEntrancePoint: {fileID: 3446620485266308401}
   portalSpawnPoint: {fileID: 0}
+--- !u!114 &2974083533669853880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3756205209312685771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f592be0ddb879645b0ab3749fb163af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 7097450846396339952, guid: 23dc7747803dcea40a9363d5a0e3a5d0, type: 3}
+  - {fileID: 4032173042955939051, guid: 7f4e646526c87ee46bf6bc230674bb6a, type: 3}
+  - {fileID: 6654091153568698279, guid: 27ba5f7459eb76843b10b0566e97c440, type: 3}
+  normalPortalPrefab: {fileID: 820913167881707167, guid: f831f0b77d8973e49887bf05a632cb6e, type: 3}
+  hardPortalPrefab: {fileID: 820913167881707167, guid: 62e2f5d6fad577e4381dc673fa17b351, type: 3}
+  spawnCenter: {fileID: 4197022705023511504}
+  portalSpawn: {fileID: 2403674640119985919}
+  spawnRadius: 25.85
+  enemiesToSpawn: 12
+  spawnDelay: 1
+  autoSpawnOnStart: 1
+  minDistanceBetweenSpawns: 4
+  spawnRayHeight: 10
+  maxRaycastDistance: 20
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &5585550607722389059
 GameObject:
   m_ObjectHideFlags: 0
@@ -4421,7 +4516,7 @@ GameObject:
   - component: {fileID: 9210121256169478487}
   - component: {fileID: 6775053154940801055}
   - component: {fileID: 2515669664057186832}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5127,7 +5222,7 @@ GameObject:
   - component: {fileID: 901023905880726457}
   - component: {fileID: 8523460047350385392}
   - component: {fileID: 9199547106838949125}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -3737,7 +3737,8 @@ MonoBehaviour:
   - {fileID: 7097450846396339952, guid: 23dc7747803dcea40a9363d5a0e3a5d0, type: 3}
   - {fileID: 6654091153568698279, guid: 27ba5f7459eb76843b10b0566e97c440, type: 3}
   - {fileID: 4032173042955939051, guid: 7f4e646526c87ee46bf6bc230674bb6a, type: 3}
-  portalPrefab: {fileID: 820913167881707167, guid: f831f0b77d8973e49887bf05a632cb6e, type: 3}
+  normalPortalPrefab: {fileID: 820913167881707167, guid: f831f0b77d8973e49887bf05a632cb6e, type: 3}
+  hardPortalPrefab: {fileID: 820913167881707167, guid: 62e2f5d6fad577e4381dc673fa17b351, type: 3}
   spawnCenter: {fileID: 447300344267690764}
   portalSpawn: {fileID: 3764964989063981006}
   spawnRadius: 15

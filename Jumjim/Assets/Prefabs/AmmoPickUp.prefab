@@ -208,7 +208,7 @@ MonoBehaviour:
   - Sniper
   - SuperShotgun
   - Blaster
-  ammoAmount: 3
+  ammoAmount: 5
   lifeTime: 5
   attractRange: 8
   moveSpeed: 50

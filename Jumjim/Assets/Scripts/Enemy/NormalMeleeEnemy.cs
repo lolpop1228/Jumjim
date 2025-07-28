@@ -65,7 +65,6 @@ public class NormalMeleeEnemy : MonoBehaviour
     void Update()
     {
         attackTimer -= Time.deltaTime;
-
         if (player == null) return;
 
         float dist = Vector3.Distance(transform.position, player.position);
@@ -84,8 +83,37 @@ public class NormalMeleeEnemy : MonoBehaviour
 
         Vector3 targetPos = new Vector3(player.position.x, rb.position.y, player.position.z);
         Vector3 dirToPlayer = (targetPos - rb.position).normalized;
+        Vector3 climbOrigin = transform.position + Vector3.up * 0.5f;
 
-        // Separation
+        // ---- Wall Climbing Check ----
+        if (Physics.Raycast(climbOrigin, dirToPlayer, out RaycastHit climbHit, climbCheckDistance, obstacleLayer))
+        {
+            isClimbing = true;
+            Debug.Log("Climbing Triggered! Hit: " + climbHit.collider.name);
+            Debug.DrawRay(climbOrigin, dirToPlayer * climbCheckDistance, Color.green);
+        }
+        else
+        {
+            isClimbing = false;
+            Debug.DrawRay(climbOrigin, dirToPlayer * climbCheckDistance, Color.red);
+        }
+
+        // ---- PRIORITIZE CLIMBING ----
+        if (isClimbing)
+        {
+            // Move straight forward and up, ignoring everything else
+            Vector3 climbDirection = (Vector3.up + dirToPlayer).normalized;
+            rb.MovePosition(rb.position + climbDirection * climbSpeed * Time.fixedDeltaTime);
+
+            // Face the wall/player direction
+            Vector3 flatLookDir = new Vector3(dirToPlayer.x, 0f, dirToPlayer.z);
+            if (flatLookDir.sqrMagnitude > 0f)
+                rb.MoveRotation(Quaternion.LookRotation(flatLookDir));
+
+            return; // Skip all other logic
+        }
+
+        // ---- NORMAL MOVEMENT (if not climbing) ----
         Vector3 separation = Vector3.zero;
         foreach (Collider c in Physics.OverlapSphere(transform.position, separationRadius, enemyLayer))
         {
@@ -95,28 +123,11 @@ public class NormalMeleeEnemy : MonoBehaviour
             if (dist > 0f) separation += away.normalized / dist;
         }
 
-        // Wobble
         wobbleTimer += Time.fixedDeltaTime * wobbleSpeed;
         Vector3 right = Vector3.Cross(dirToPlayer, Vector3.up);
         float offset = Mathf.Sin(wobbleTimer) * wobbleAmount;
 
         Vector3 moveDir = dirToPlayer + right * offset + separation * separationStrength;
-
-        // Wall Climbing Check
-        Vector3 climbOrigin = transform.position + Vector3.up * 0.5f;
-        isClimbing = Physics.Raycast(climbOrigin, moveDir.normalized, climbCheckDistance, obstacleLayer);
-
-        // Optional: prevent infinite climb if already at similar height as player
-        if (player.position.y - transform.position.y < 0.5f)
-            isClimbing = false;
-
-        if (isClimbing)
-        {
-            // Climb up and forward
-            Vector3 climbDirection = (Vector3.up + moveDir.normalized).normalized;
-            rb.MovePosition(rb.position + climbDirection * climbSpeed * Time.fixedDeltaTime);
-            return;
-        }
 
         // Obstacle Avoidance
         Vector3 avoidance = Vector3.zero;
@@ -134,6 +145,7 @@ public class NormalMeleeEnemy : MonoBehaviour
                 Vector3 away = Vector3.Reflect(d, hit.normal);
                 away.y = 0f;
                 avoidance += away;
+                Debug.DrawRay(climbOrigin, d * avoidDistance, Color.yellow);
             }
         }
 
@@ -147,6 +159,7 @@ public class NormalMeleeEnemy : MonoBehaviour
         if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit groundHit, rayDistance, groundLayer))
         {
             groundNormal = groundHit.normal;
+            Debug.DrawRay(rayOrigin, Vector3.down * rayDistance, Color.blue);
         }
 
         moveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
@@ -158,9 +171,9 @@ public class NormalMeleeEnemy : MonoBehaviour
         }
 
         // Face Player
-        Vector3 flatLookDir = new Vector3(dirToPlayer.x, 0f, dirToPlayer.z);
-        if (flatLookDir.sqrMagnitude > 0f)
-            rb.MoveRotation(Quaternion.LookRotation(flatLookDir));
+        Vector3 flatLookDirFinal = new Vector3(dirToPlayer.x, 0f, dirToPlayer.z);
+        if (flatLookDirFinal.sqrMagnitude > 0f)
+            rb.MoveRotation(Quaternion.LookRotation(flatLookDirFinal));
     }
 
     void MeleeAttack()
