@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
-  - {fileID: 6062276895638383800, guid: baee0a82c87c4454eb445ae2b7786838, type: 3}
+  - {fileID: 6880560875593459314, guid: baee0a82c87c4454eb445ae2b7786838, type: 3}
   - {fileID: 6945722337530099780, guid: fe267e636f63d6d45920f6e9d1a33efa, type: 3}
   - {fileID: 3928774369715614258, guid: 83b22d2770c15fa47ab044dd829eff46, type: 3}
   - {fileID: 3600393761830310405, guid: 6fa42c28f8e8c90459c70b9ea57cf0ed, type: 3}
