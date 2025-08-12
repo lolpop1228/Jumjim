@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 7003650562050623088}
   - component: {fileID: 6437462520036979588}
   m_Layer: 0
-  m_Name: DoubleBarrel(short)
+  m_Name: SuperShotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

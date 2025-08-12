@@ -6,8 +6,9 @@ public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawning")]
     public GameObject[] enemyPrefabs;
-    public GameObject normalPortalPrefab;  // Normal portal prefab
-    public GameObject hardPortalPrefab;    // Hard portal prefab
+    public GameObject normalPortalPrefab;
+    public GameObject tressurePortalPrefab;
+    public GameObject hardPortalPrefab;
     public Transform spawnCenter;
     public Transform portalSpawn;
     public float spawnRadius = 10f;
@@ -22,37 +23,14 @@ public class EnemySpawner : MonoBehaviour
     public LayerMask groundLayer;
 
     private List<Vector3> usedSpawnPoints = new List<Vector3>();
-    private List<GameObject> spawnedEnemies = new List<GameObject>();
     private int prefabIndex = 0;
-    private bool portalSpawned = false; // Track if the portal has been spawned
+    private bool portalSpawned = false;
+    private int deadEnemies = 0; // Track how many are dead
 
     void Start()
     {
         if (autoSpawnOnStart)
             StartCoroutine(SpawnEnemies());
-    }
-
-    void Update()
-    {
-        // Check if all spawned enemies are dead and spawn portal
-        if (!portalSpawned && spawnedEnemies.Count > 0 && AllEnemiesDead())
-        {
-            PlayerLevel playerLevel = FindObjectOfType<PlayerLevel>();
-            playerLevel.AddLevel(1);
-            Debug.Log("All enemies have been defeated!");
-
-            // Decide which portal to spawn based on player level
-            if (playerLevel.currentPlayerLevel < 5)
-            {
-                SpawnPortal(normalPortalPrefab);
-            }
-            else if (playerLevel.currentPlayerLevel >= 5)
-            {
-                SpawnPortal(hardPortalPrefab);
-            }
-
-            portalSpawned = true; // Prevent multiple spawns
-        }
     }
 
     IEnumerator SpawnEnemies()
@@ -73,7 +51,14 @@ public class EnemySpawner : MonoBehaviour
 
                 Vector3 spawnAboveGround = spawnPos + Vector3.up * 1f;
                 GameObject enemy = Instantiate(prefab, spawnAboveGround, Quaternion.identity);
-                spawnedEnemies.Add(enemy);
+
+                // Let EnemyHealth know who spawned it
+                EnemyHealth health = enemy.GetComponent<EnemyHealth>();
+                if (health != null)
+                {
+                    health.spawner = this;
+                }
+
                 usedSpawnPoints.Add(spawnPos);
                 spawned++;
 
@@ -111,14 +96,26 @@ public class EnemySpawner : MonoBehaviour
         return true;
     }
 
-    bool AllEnemiesDead()
+    public void OnEnemyDied()
     {
-        foreach (var enemy in spawnedEnemies)
+        deadEnemies++;
+        if (!portalSpawned && deadEnemies >= enemiesToSpawn)
         {
-            if (enemy != null)
-                return false;
+            PlayerLevel playerLevel = FindObjectOfType<PlayerLevel>();
+            playerLevel.AddLevel(1);
+            Debug.Log("All enemies have been defeated!");
+
+            if (playerLevel.currentPlayerLevel < 5)
+                SpawnPortal(normalPortalPrefab);
+            else if (playerLevel.currentPlayerLevel == 5)
+                SpawnPortal(tressurePortalPrefab);
+            else if (playerLevel.currentPlayerLevel > 5)
+                {
+                    SpawnPortal(hardPortalPrefab);
+                }  
+
+            portalSpawned = true;
         }
-        return true;
     }
 
     void SpawnPortal(GameObject portalPrefab)

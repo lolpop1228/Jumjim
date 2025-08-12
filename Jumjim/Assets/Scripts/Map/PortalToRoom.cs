@@ -25,13 +25,14 @@ public class PortalToRoom : MonoBehaviour
         // Pick a random room index, different from last one
         int randomIndex = GetRandomRoomIndex();
         GameObject randomRoomPrefab = roomPrefabs[randomIndex];
-        lastRoomIndex = randomIndex; // Update last room index
+        lastRoomIndex = randomIndex;
 
-        // Calculate spawn position
-        Vector3 spawnPosition = spawnOffset != null ? spawnOffset.position : transform.position + Vector3.forward * 50f;
+        // Keep spawn position flat (no vertical drop)
+        Vector3 basePos = spawnOffset != null ? spawnOffset.position : transform.position + Vector3.forward * 50f;
+        basePos.y = 0f; // Keep same height as current portal
 
         // Instantiate the new room
-        GameObject newRoom = Instantiate(randomRoomPrefab, spawnPosition, Quaternion.identity);
+        GameObject newRoom = Instantiate(randomRoomPrefab, basePos, Quaternion.identity);
 
         // Find entrance point in new room
         Transform entrance = null;
@@ -56,7 +57,7 @@ public class PortalToRoom : MonoBehaviour
             if (pm != null) pm.SetYVelocity(0f);
         }
 
-        // Destroy current room (assumes portal is inside the current room)
+        // Destroy current room
         if (destroyCurrentRoom)
         {
             Transform parentRoom = transform.root;
@@ -66,6 +67,7 @@ public class PortalToRoom : MonoBehaviour
             }
         }
     }
+
 
     int GetRandomRoomIndex()
     {

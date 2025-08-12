@@ -5732,7 +5732,7 @@ GameObject:
   - component: {fileID: 7850496239030134025}
   - component: {fileID: 7326208653190768668}
   m_Layer: 0
-  m_Name: Raygun(New)
+  m_Name: Blaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

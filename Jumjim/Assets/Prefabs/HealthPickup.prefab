@@ -66,9 +66,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba26df072c61a04697bfe29715f209c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 3
-  lifeTime: 3
-  attractRange: 8
+  healAmount: 5
+  lifeTime: 5
+  attractRange: 12
   moveSpeed: 50
   pickupSound: {fileID: 0}
   pickupEffect: {fileID: 0}

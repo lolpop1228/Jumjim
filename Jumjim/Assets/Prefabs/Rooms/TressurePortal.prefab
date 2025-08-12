@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2565896249975921370}
   - component: {fileID: 8687897852195658169}
   m_Layer: 0
-  m_Name: NormalPortal
+  m_Name: TressurePortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d47c6f606fba4994683b3ba0dcefcd7b, type: 2}
+  - {fileID: 2100000, guid: 7f8ee1132caa86049867f67484c8f38f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,11 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
-  - {fileID: 1575200224925883133, guid: baee0a82c87c4454eb445ae2b7786838, type: 3}
-  - {fileID: 7488781196819999814, guid: fe267e636f63d6d45920f6e9d1a33efa, type: 3}
-  - {fileID: 4487447315705874699, guid: 83b22d2770c15fa47ab044dd829eff46, type: 3}
-  - {fileID: 2299454725494881571, guid: 6fa42c28f8e8c90459c70b9ea57cf0ed, type: 3}
-  - {fileID: 2362524655519127922, guid: cb3662e4ba5bf7242a37fa3f9b2b573b, type: 3}
+  - {fileID: 4134910242059580605, guid: 17e8de62707eb1f4c83d6d519df72909, type: 3}
   spawnOffset: {fileID: 0}
   destroyCurrentRoom: 1
   teleportPlayerToEntrance: 1

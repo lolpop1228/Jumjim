@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2565896249975921370}
   - component: {fileID: 8687897852195658169}
   m_Layer: 0
-  m_Name: EasyPortal
+  m_Name: HardPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,10 +119,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
-  - {fileID: 6880560875593459314, guid: baee0a82c87c4454eb445ae2b7786838, type: 3}
-  - {fileID: 6945722337530099780, guid: fe267e636f63d6d45920f6e9d1a33efa, type: 3}
-  - {fileID: 3928774369715614258, guid: 83b22d2770c15fa47ab044dd829eff46, type: 3}
-  - {fileID: 3600393761830310405, guid: 6fa42c28f8e8c90459c70b9ea57cf0ed, type: 3}
+  - {fileID: 3722565495330940398, guid: 5b3448beac3d6a24bb1b59b4cbb1ba42, type: 3}
+  - {fileID: 2993596945842852794, guid: 55ab6487143ddc8438cb28d919ca0026, type: 3}
+  - {fileID: 5222237141476008462, guid: b1a2ec83d377d7844aa09b189392baa2, type: 3}
+  - {fileID: 7506164574002656052, guid: 66f2710affed9fe458cc16dab5d6a4db, type: 3}
+  - {fileID: 7292566642856766231, guid: 099704ccc05232544a785fc2639a3ece, type: 3}
   spawnOffset: {fileID: 0}
   destroyCurrentRoom: 1
   teleportPlayerToEntrance: 1

@@ -19,7 +19,7 @@ public class WeaponInventory : MonoBehaviour
 
         // Instantiate
         GameObject weaponGO = Instantiate(weaponPrefab, weaponHolder);
-        
+
         // Try to get weapon component (order by most common first for efficiency)
         MonoBehaviour weapon = weaponGO.GetComponent<HitscanGun>();
         if (weapon == null)
@@ -28,7 +28,7 @@ public class WeaponInventory : MonoBehaviour
             weapon = weaponGO.GetComponent<RocketLauncher>();
         if (weapon == null)
             weapon = weaponGO.GetComponent<SkullCrusher>();
-        
+
         if (weapon != null)
         {
             weapon.enabled = false;

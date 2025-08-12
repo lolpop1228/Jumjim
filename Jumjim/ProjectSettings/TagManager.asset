@@ -23,6 +23,7 @@ TagManager:
   - DungeonGenerator
   - StartRoom
   - HurtUI
+  - WeaponHolder
   layers:
   - Default
   - TransparentFX
@@ -36,7 +37,7 @@ TagManager:
   - Player
   - Enemy
   - ClimableWall
-  - 
+  - Interactable
   - 
   - 
   - 

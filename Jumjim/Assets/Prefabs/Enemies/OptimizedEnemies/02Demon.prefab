@@ -409,7 +409,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3795069773437487459}
   - component: {fileID: 7101598013038642081}
-  - component: {fileID: 4242152775582595600}
   - component: {fileID: 4217461571049584334}
   - component: {fileID: 8062139118060115462}
   - component: {fileID: 1454709426396388810}
@@ -431,7 +430,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -25.209192, y: -0.073, z: -34.550583}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6706364747246988238}
@@ -473,89 +472,6 @@ CapsuleCollider:
   m_Height: 5.99485
   m_Direction: 1
   m_Center: {x: 0.1142025, y: 3.0814571, z: 0}
---- !u!114 &4242152775582595600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 881625380631208052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boneShape: 1
-  drawBones: 1
-  drawTripods: 0
-  boneSize: 1
-  tripodSize: 1
-  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
-  m_Transforms:
-  - {fileID: 3795069773437487459}
-  - {fileID: 6706364747246988238}
-  - {fileID: 4742372835179162916}
-  - {fileID: 3484133335658995099}
-  - {fileID: 8028330192787696757}
-  - {fileID: 4798158042902402280}
-  - {fileID: 478231156882391775}
-  - {fileID: 7034298819819478208}
-  - {fileID: 5635841227471522669}
-  - {fileID: 4433925439234543196}
-  - {fileID: 1516355994019010188}
-  - {fileID: 7147769649641427103}
-  - {fileID: 5639797651624130585}
-  - {fileID: 662907141170220039}
-  - {fileID: 6431698120514625798}
-  - {fileID: 4944045632944489610}
-  - {fileID: 7950693047604502119}
-  - {fileID: 2243745258739619465}
-  - {fileID: 1700411066055532222}
-  - {fileID: 7819142057220917382}
-  - {fileID: 260636835877954399}
-  - {fileID: 3478742472206044500}
-  - {fileID: 8806352638966598766}
-  - {fileID: 857493625677319686}
-  - {fileID: 4722958834159332480}
-  - {fileID: 6860976106361621024}
-  - {fileID: 7149663319521837861}
-  - {fileID: 2949244388782643318}
-  - {fileID: 4134808106400191202}
-  - {fileID: 1259111335839217497}
-  - {fileID: 438355334509777342}
-  - {fileID: 8713434770358906816}
-  - {fileID: 8990012639325382954}
-  - {fileID: 2125692778416855917}
-  - {fileID: 7286829237634385519}
-  - {fileID: 34159078015297118}
-  - {fileID: 5215675127141635488}
-  - {fileID: 573592545331214634}
-  - {fileID: 3370093041723853599}
-  - {fileID: 5669049332128192301}
-  - {fileID: 4202850680143314421}
-  - {fileID: 7519946045343855422}
-  - {fileID: 2817800331151051430}
-  - {fileID: 4383977804871553040}
-  - {fileID: 3375296985804518179}
-  - {fileID: 8139420205108226203}
-  - {fileID: 5656396161222962994}
-  - {fileID: 9102618183539193221}
-  - {fileID: 5162840414187105324}
-  - {fileID: 7458447177145728160}
-  - {fileID: 352125662480240748}
-  - {fileID: 1715381921078238241}
-  - {fileID: 25689179681296338}
-  - {fileID: 7960760078809450527}
-  - {fileID: 6354976058676092583}
-  - {fileID: 203567343673242800}
-  - {fileID: 121866545544181384}
-  - {fileID: 7088527114201036143}
-  - {fileID: 1003816672232820526}
-  - {fileID: 6464401138253851314}
-  - {fileID: 3429554904951541944}
-  - {fileID: 2117658346133306383}
-  - {fileID: 1220346594188350997}
-  - {fileID: 1654289573591785391}
 --- !u!54 &4217461571049584334
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -618,7 +534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   moveSpeed: 11
-  stopDistance: 6
+  stopDistance: 8
   damage: 5
   fireRate: 0.7
   raycastRange: 100
@@ -639,8 +555,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
-  climbCheckDistance: 5
-  climbSpeed: 40
+  climbCheckDistance: 2
+  climbSpeed: 20
   animator: {fileID: 8062139118060115462}
 --- !u!114 &8042306996465064265
 MonoBehaviour:
@@ -655,6 +571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+  spawner: {fileID: 0}
   bloodEffect: {fileID: 3169145786230463210, guid: 8299354f942ae2948969d9a48658c668, type: 3}
   effectPoint: {fileID: 4980268180727575480}
   healthDropPrefab: {fileID: 3112471261465438101, guid: 3552a53d22321744bbee72daa68be6df, type: 3}

@@ -6,6 +6,8 @@ public class EnemyHealth : MonoBehaviour
     private float currentHealth;
     private bool isDead = false;
 
+    public EnemySpawner spawner; // Assigned by EnemySpawner
+
     public GameObject bloodEffect;
     public Transform effectPoint;
 
@@ -21,16 +23,16 @@ public class EnemyHealth : MonoBehaviour
     public Vector2Int armorDropAmountRange = new Vector2Int(1, 2);
 
     [Header("Fall Detection")]
-    public float fallThreshold = -10f;           // Y-level considered as "falling too low"
-    public LayerMask groundLayers = ~0;          // Layers considered ground
-    public float groundCheckDistance = 1.2f;     // Distance for ground check
+    public float fallThreshold = -10f;
+    public LayerMask groundLayers = ~0;
+    public float groundCheckDistance = 1.2f;
 
     private Vector3 lastGroundedPosition;
 
     void Start()
     {
         currentHealth = maxHealth;
-        lastGroundedPosition = transform.position; // Initial spawn position
+        lastGroundedPosition = transform.position;
     }
 
     void Update()
@@ -39,16 +41,14 @@ public class EnemyHealth : MonoBehaviour
         CheckFall();
     }
 
-    // Track the last grounded position
     void TrackGroundedPosition()
     {
         if (Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayers))
         {
-            lastGroundedPosition = hit.point; // Save safe ground position
+            lastGroundedPosition = hit.point;
         }
     }
 
-    // Teleport enemy back if it falls too low
     void CheckFall()
     {
         if (transform.position.y < fallThreshold)
@@ -59,13 +59,13 @@ public class EnemyHealth : MonoBehaviour
 
     void TeleportToLastGroundedPosition()
     {
-        Vector3 safePosition = lastGroundedPosition + Vector3.up * 1f; // Raise slightly above ground
+        Vector3 safePosition = lastGroundedPosition + Vector3.up * 1f;
         transform.position = safePosition;
 
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.velocity = Vector3.zero; // Reset velocity
+            rb.velocity = Vector3.zero;
         }
     }
 
@@ -93,6 +93,13 @@ public class EnemyHealth : MonoBehaviour
         isDead = true;
 
         DropItems();
+
+        // Notify spawner
+        if (spawner != null)
+        {
+            spawner.OnEnemyDied();
+        }
+
         Destroy(gameObject);
     }
 

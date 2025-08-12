@@ -472,7 +472,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4973998612397225249}
-  - component: {fileID: 5494308751416521738}
   - component: {fileID: 8858819719412820507}
   - component: {fileID: 8788798445404884623}
   - component: {fileID: 44258213495561702}
@@ -495,7 +494,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.928486, y: 0.68, z: -31.743595}
-  m_LocalScale: {x: 0.42, y: 0.42, z: 0.42}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2973188656450481801}
@@ -506,70 +505,6 @@ Transform:
   - {fileID: 501440184027052204}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5494308751416521738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996309891149802498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boneShape: 1
-  drawBones: 1
-  drawTripods: 0
-  boneSize: 1
-  tripodSize: 1
-  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
-  m_Transforms:
-  - {fileID: 4973998612397225249}
-  - {fileID: 2973188656450481801}
-  - {fileID: 5111910388572366277}
-  - {fileID: 631374586405497154}
-  - {fileID: 4543395491563204154}
-  - {fileID: 6157898922174392667}
-  - {fileID: 8459763407551815673}
-  - {fileID: 6422625410491299202}
-  - {fileID: 7065645563991366098}
-  - {fileID: 9067633781099948288}
-  - {fileID: 5887296556503138649}
-  - {fileID: 3996193797709906024}
-  - {fileID: 1126487034968086881}
-  - {fileID: 8189775107930219093}
-  - {fileID: 5951207347356543296}
-  - {fileID: 4355185681738608426}
-  - {fileID: 892562516156118712}
-  - {fileID: 5535483262418593318}
-  - {fileID: 2144483041377950718}
-  - {fileID: 8672289285707902134}
-  - {fileID: 2273912652975959769}
-  - {fileID: 4091228730056262717}
-  - {fileID: 8945324237676760810}
-  - {fileID: 7820814250329576314}
-  - {fileID: 5185273826878864981}
-  - {fileID: 1507658383169654673}
-  - {fileID: 4103576639592914622}
-  - {fileID: 9092579936369968914}
-  - {fileID: 6705438299390740927}
-  - {fileID: 1874961445807906958}
-  - {fileID: 6831573161714380383}
-  - {fileID: 4432671806411993980}
-  - {fileID: 8866483392281315109}
-  - {fileID: 3222202272785193081}
-  - {fileID: 4270457951694369632}
-  - {fileID: 1588897842542194873}
-  - {fileID: 2640639391272835804}
-  - {fileID: 2939939619011482174}
-  - {fileID: 3287120689235214966}
-  - {fileID: 7880857739977011699}
-  - {fileID: 3749034613656664132}
-  - {fileID: 3188523976217821298}
-  - {fileID: 6685549319817238613}
-  - {fileID: 4190364628460945484}
-  - {fileID: 3894080230845771643}
 --- !u!136 &8858819719412820507
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -660,7 +595,7 @@ MonoBehaviour:
   projectileSpawnPoint: {fileID: 6601940334387922532}
   projectileSpeed: 12
   attackCooldown: 1
-  separationRadius: 10
+  separationRadius: 6
   separationStrength: 2.5
   enemyLayer:
     serializedVersion: 2
@@ -673,7 +608,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
-  climbCheckDistance: 5
+  climbCheckDistance: 2
   climbSpeed: 40
   visionBlockLayers:
     serializedVersion: 2

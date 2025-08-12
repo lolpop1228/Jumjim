@@ -2672,7 +2672,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1798145385011625601}
   - component: {fileID: 5823808950663962102}
-  - component: {fileID: 4180386726951670371}
   - component: {fileID: 1854730104874517144}
   - component: {fileID: 4097266256905765313}
   - component: {fileID: 2506196173110287078}
@@ -2694,7 +2693,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -24.47, y: 0.116, z: -34.047455}
-  m_LocalScale: {x: 0.27, y: 0.27, z: 0.27}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1569570392704413396}
@@ -2750,93 +2749,6 @@ CapsuleCollider:
   m_Height: 7.805311
   m_Direction: 1
   m_Center: {x: -0.06121176, y: 3.402654, z: -0.5322244}
---- !u!114 &4180386726951670371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5790507362895152776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boneShape: 1
-  drawBones: 1
-  drawTripods: 0
-  boneSize: 1
-  tripodSize: 1
-  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
-  m_Transforms:
-  - {fileID: 1798145385011625601}
-  - {fileID: 1569570392704413396}
-  - {fileID: 7412103884985622294}
-  - {fileID: 2866185170229669013}
-  - {fileID: 1138006447650738038}
-  - {fileID: 6940800136434434139}
-  - {fileID: 3517633194184388468}
-  - {fileID: 3417265232894041944}
-  - {fileID: 2883234749806457160}
-  - {fileID: 6740812036703303985}
-  - {fileID: 3342310942465874356}
-  - {fileID: 7467826772333278305}
-  - {fileID: 7639311089459947400}
-  - {fileID: 6884479703175600409}
-  - {fileID: 2455790264196037243}
-  - {fileID: 5788593847824999496}
-  - {fileID: 108815720735552536}
-  - {fileID: 2658842437320407947}
-  - {fileID: 4985340954045598835}
-  - {fileID: 2890867579254012627}
-  - {fileID: 1065646520064688634}
-  - {fileID: 6170152504208251811}
-  - {fileID: 6346474954874556930}
-  - {fileID: 5995696477711966345}
-  - {fileID: 4696151166013049095}
-  - {fileID: 9180436643801697285}
-  - {fileID: 8462780251847119987}
-  - {fileID: 3788325123452679283}
-  - {fileID: 2970180518332513289}
-  - {fileID: 5683782648272664853}
-  - {fileID: 1307823788155456270}
-  - {fileID: 2978762768638708075}
-  - {fileID: 5815610683036954038}
-  - {fileID: 7802104911625743095}
-  - {fileID: 9043300253703410495}
-  - {fileID: 6667004270437903691}
-  - {fileID: 3858190141695059057}
-  - {fileID: 9220554052295395565}
-  - {fileID: 5936922482248730955}
-  - {fileID: 3432165915724851481}
-  - {fileID: 4628592396259215933}
-  - {fileID: 5060639386982642029}
-  - {fileID: 7731797558773297399}
-  - {fileID: 1137972329427703627}
-  - {fileID: 7641723529935122517}
-  - {fileID: 631337515737459509}
-  - {fileID: 4469269650405113063}
-  - {fileID: 1713183121749165923}
-  - {fileID: 8743476283983329228}
-  - {fileID: 6154390279903845036}
-  - {fileID: 6796912377597855447}
-  - {fileID: 2898311214100082399}
-  - {fileID: 8068510277160604143}
-  - {fileID: 8002978362332024335}
-  - {fileID: 6410719312894004824}
-  - {fileID: 6674641523171715227}
-  - {fileID: 5100432678688957453}
-  - {fileID: 6261268969694663913}
-  - {fileID: 7917621109942697978}
-  - {fileID: 5130514757951021966}
-  - {fileID: 4283305437223011050}
-  - {fileID: 4333503888932576687}
-  - {fileID: 225348979525949597}
-  - {fileID: 2930857464781826605}
-  - {fileID: 327224214652474382}
-  - {fileID: 2582398075210584334}
-  - {fileID: 6148709583422467404}
-  - {fileID: 1883547501310111676}
 --- !u!95 &1854730104874517144
 Animator:
   serializedVersion: 5
@@ -2902,7 +2814,7 @@ MonoBehaviour:
   stopDistance: 2
   attackCooldown: 1
   damage: 5
-  separationRadius: 8
+  separationRadius: 6
   separationStrength: 2.5
   enemyLayer:
     serializedVersion: 2
@@ -2915,8 +2827,8 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
-  climbCheckDistance: 5
-  climbSpeed: 40
+  climbCheckDistance: 2
+  climbSpeed: 20
   animator: {fileID: 0}
   groundLayer:
     serializedVersion: 2

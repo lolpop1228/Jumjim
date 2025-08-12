@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 344466006196237759}
   - component: {fileID: 3427177917775018877}
   m_Layer: 0
-  m_Name: bazooka(Grenn)
+  m_Name: RocketLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1886,7 +1886,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6869937062836833005}
-  - component: {fileID: 5961148555573315447}
   m_Layer: 10
   m_Name: upper_arm.L
   m_TagString: Untagged
@@ -1910,29 +1909,6 @@ Transform:
   - {fileID: 3975441718315425475}
   m_Father: {fileID: 2196073438830220837}
   m_LocalEulerAnglesHint: {x: 25.568, y: -90.7, z: 79.393}
---- !u!114 &5961148555573315447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7021112536620334872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boneShape: 1
-  drawBones: 1
-  drawTripods: 0
-  boneSize: 1
-  tripodSize: 1
-  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
-  m_Transforms:
-  - {fileID: 6869937062836833005}
-  - {fileID: 3975441718315425475}
-  - {fileID: 7631707203272138044}
-  - {fileID: 107076119379635847}
 --- !u!1 &7052502144247784664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1943,7 +1919,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1860825331649140991}
   - component: {fileID: 3212780364748783830}
-  - component: {fileID: 3510908947119165149}
   - component: {fileID: 7744121304192626114}
   - component: {fileID: 3685329894844722460}
   - component: {fileID: 5810854499909200650}
@@ -1965,7 +1940,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -13.46545, y: -0.103, z: -30.788788}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3087162013398529814}
@@ -2009,78 +1984,6 @@ CapsuleCollider:
   m_Height: 7.3792505
   m_Direction: 1
   m_Center: {x: -0.10213375, y: 3.918202, z: 0}
---- !u!114 &3510908947119165149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7052502144247784664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boneShape: 1
-  drawBones: 1
-  drawTripods: 0
-  boneSize: 1
-  tripodSize: 1
-  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
-  m_Transforms:
-  - {fileID: 1860825331649140991}
-  - {fileID: 3087162013398529814}
-  - {fileID: 855113629565105400}
-  - {fileID: 5590622400587634189}
-  - {fileID: 9099497350451480410}
-  - {fileID: 899001394974499059}
-  - {fileID: 2838835855036787950}
-  - {fileID: 590818003361749352}
-  - {fileID: 3455187355937290187}
-  - {fileID: 4463083550776894148}
-  - {fileID: 475610649382853083}
-  - {fileID: 3418464664372470258}
-  - {fileID: 3366347078355152280}
-  - {fileID: 8586226438865514255}
-  - {fileID: 794556322877746195}
-  - {fileID: 7654173375370687681}
-  - {fileID: 5095260078367275744}
-  - {fileID: 1644146564179152598}
-  - {fileID: 1735859575650819004}
-  - {fileID: 5243452474160276449}
-  - {fileID: 2819592736174547913}
-  - {fileID: 720390632776550251}
-  - {fileID: 2983529697386867499}
-  - {fileID: 9181951441642712837}
-  - {fileID: 2196073438830220837}
-  - {fileID: 6869937062836833005}
-  - {fileID: 3975441718315425475}
-  - {fileID: 7631707203272138044}
-  - {fileID: 107076119379635847}
-  - {fileID: 1750121460856099690}
-  - {fileID: 3977815380745410892}
-  - {fileID: 2401317809109773452}
-  - {fileID: 412210254705263101}
-  - {fileID: 8950305666727496967}
-  - {fileID: 4193776392674747996}
-  - {fileID: 1406850163821053999}
-  - {fileID: 4106207055048526543}
-  - {fileID: 926960929587433963}
-  - {fileID: 7106339298131323521}
-  - {fileID: 4859823859161791168}
-  - {fileID: 7943320529769572498}
-  - {fileID: 4841175489181434042}
-  - {fileID: 2589918324125188394}
-  - {fileID: 6379566943701337343}
-  - {fileID: 4909883140475461556}
-  - {fileID: 7523432676061179182}
-  - {fileID: 5281276125931999421}
-  - {fileID: 5075247349611949723}
-  - {fileID: 8208847757528018715}
-  - {fileID: 2779483844017493738}
-  - {fileID: 7455732149492637728}
-  - {fileID: 8383004732202512937}
-  - {fileID: 2285784280782490965}
 --- !u!54 &7744121304192626114
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2125,7 +2028,7 @@ MonoBehaviour:
   stopDistance: 2
   attackCooldown: 1.5
   damage: 18
-  separationRadius: 10
+  separationRadius: 6
   separationStrength: 2.5
   enemyLayer:
     serializedVersion: 2
@@ -2138,7 +2041,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
-  climbCheckDistance: 5
+  climbCheckDistance: 2
   climbSpeed: 40
   animator: {fileID: 5810854499909200650}
   groundLayer:

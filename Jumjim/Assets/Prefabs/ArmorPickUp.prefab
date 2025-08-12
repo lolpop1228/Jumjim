@@ -200,9 +200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00659fd9d8136e41aa03a0eef44bcab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  armorAmount: 3
-  lifeTime: 3
-  attractRange: 8
+  armorAmount: 5
+  lifeTime: 5
+  attractRange: 12
   moveSpeed: 50
   pickupSound: {fileID: 0}
   pickupEffect: {fileID: 0}

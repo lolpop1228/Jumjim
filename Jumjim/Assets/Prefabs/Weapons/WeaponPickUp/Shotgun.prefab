@@ -668,6 +668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 6483358358849760461, guid: d2fa26328f3d11e4d949713e0ec52e8d, type: 3}
   pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
+  weaponName: Shotgun
   spinSpeed: 90
 --- !u!1 &3880925347657818186
 GameObject:

@@ -210,6 +210,6 @@ MonoBehaviour:
   - Blaster
   ammoAmount: 5
   lifeTime: 5
-  attractRange: 8
+  attractRange: 12
   moveSpeed: 50
   pickupSound: {fileID: 0}

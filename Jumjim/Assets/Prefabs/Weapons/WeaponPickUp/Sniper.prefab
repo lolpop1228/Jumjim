@@ -759,7 +759,7 @@ GameObject:
   - component: {fileID: 7513403434265310910}
   - component: {fileID: 3413791932417739530}
   m_Layer: 0
-  m_Name: Sniper2
+  m_Name: Sniper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -841,6 +841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 4112341348334923745, guid: 0c46ade0f85cc424987ee62985a3b6d1, type: 3}
   pickupSound: {fileID: 8300000, guid: 3929427463b51a143a15d7e1b36a87fe, type: 3}
+  weaponName: Sniper
   spinSpeed: 90
 --- !u!1 &3389721116543539434
 GameObject:

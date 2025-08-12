@@ -4,6 +4,7 @@ public class WeaponPickup : MonoBehaviour
 {
     public GameObject weaponPrefab;
     public AudioClip pickupSound;
+    public string weaponName;
     public float spinSpeed = 90f; // Degrees per second
 
     void Update()
