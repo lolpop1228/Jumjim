@@ -140,7 +140,7 @@ MonoBehaviour:
   rocketPrefab: {fileID: 1510140309283737269, guid: 494def50c11bc22419a452d57a6bc171, type: 3}
   firePoint: {fileID: 2053293919255939631}
   launchForce: 4000
-  fireRate: 2
+  fireRate: 4
   weaponName: RocketLauncher
   fireAnimator: {fileID: 3427177917775018877}
   fireTriggerName: Fire
@@ -155,7 +155,7 @@ MonoBehaviour:
   recoilX: 20
   recoilY: 10
   recoilZ: 5
-  maxAmmo: 12
+  maxAmmo: 10
   currentAmmo: 0
   infiniteAmmo: 0
   ammoText: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2565896249975921370}
   - component: {fileID: 8687897852195658169}
   m_Layer: 0
-  m_Name: HardPortal
+  m_Name: ExtremePortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f80bb87b73a77e94781580e9a8bfff25, type: 2}
+  - {fileID: 2100000, guid: e86733302d3bc274f8dba5b01db6e05b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,9 +119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
-  - {fileID: 2993596945842852794, guid: 55ab6487143ddc8438cb28d919ca0026, type: 3}
-  - {fileID: 5222237141476008462, guid: b1a2ec83d377d7844aa09b189392baa2, type: 3}
-  - {fileID: 7292566642856766231, guid: 099704ccc05232544a785fc2639a3ece, type: 3}
+  - {fileID: 46055893270220716, guid: 7b1999241e8a40c439a8565eaaa05c69, type: 3}
+  - {fileID: 330169863221187909, guid: 82018672dea45e344b06098f0bef699f, type: 3}
+  - {fileID: 2501136230689193852, guid: 2cb534b6a41d4594d97a558345d998c4, type: 3}
   spawnOffset: {fileID: 0}
   destroyCurrentRoom: 1
   teleportPlayerToEntrance: 1

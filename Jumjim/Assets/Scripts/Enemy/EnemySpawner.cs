@@ -9,6 +9,8 @@ public class EnemySpawner : MonoBehaviour
     public GameObject normalPortalPrefab;
     public GameObject tressurePortalPrefab;
     public GameObject hardPortalPrefab;
+    public GameObject violencePortalPrefab;
+    public GameObject extremePortalPrefab;
     public Transform spawnCenter;
     public Transform portalSpawn;
     public float spawnRadius = 10f;
@@ -46,8 +48,8 @@ public class EnemySpawner : MonoBehaviour
             Vector3 spawnPos;
             if (TryGetValidGroundPosition(out spawnPos) && IsFarEnough(spawnPos))
             {
-                GameObject prefab = enemyPrefabs[prefabIndex];
-                prefabIndex = (prefabIndex + 1) % enemyPrefabs.Length;
+                // Pick a random enemy instead of cycling evenly
+                GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
                 Vector3 spawnAboveGround = spawnPos + Vector3.up * 1f;
                 GameObject enemy = Instantiate(prefab, spawnAboveGround, Quaternion.identity);
@@ -66,6 +68,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
+
 
     bool TryGetValidGroundPosition(out Vector3 groundPos)
     {
@@ -99,24 +102,51 @@ public class EnemySpawner : MonoBehaviour
     public void OnEnemyDied()
     {
         deadEnemies++;
+        Debug.Log($"Enemy died. Dead count = {deadEnemies}/{enemiesToSpawn}");
+
         if (!portalSpawned && deadEnemies >= enemiesToSpawn)
         {
             PlayerLevel playerLevel = FindObjectOfType<PlayerLevel>();
             playerLevel.AddLevel(1);
             Debug.Log("All enemies have been defeated!");
 
-            if (playerLevel.currentPlayerLevel < 5)
+            int level = playerLevel.currentPlayerLevel;
+            Debug.Log("Current Level: " + level);
+
+            if (level < 5)
+            {
                 SpawnPortal(normalPortalPrefab);
-            else if (playerLevel.currentPlayerLevel == 5)
+            }
+            else if (level == 5)
+            {
                 SpawnPortal(tressurePortalPrefab);
-            else if (playerLevel.currentPlayerLevel > 5)
-                {
-                    SpawnPortal(hardPortalPrefab);
-                }  
+            }
+            else if (level > 5 && level < 10)
+            {
+                SpawnPortal(hardPortalPrefab);
+            }
+            else if (level == 10)
+            {
+                SpawnPortal(tressurePortalPrefab);
+            }
+            else if (level > 10 && level < 15)
+            {
+                SpawnPortal(violencePortalPrefab);
+            }
+            else if (level == 15)
+            {
+                SpawnPortal(tressurePortalPrefab);
+            }
+            else if (level > 15)
+            {
+                SpawnPortal(extremePortalPrefab);
+            }
 
             portalSpawned = true;
         }
     }
+
+
 
     void SpawnPortal(GameObject portalPrefab)
     {

@@ -28,7 +28,7 @@ public class PortalToRoom : MonoBehaviour
         lastRoomIndex = randomIndex;
 
         // Keep spawn position flat (no vertical drop)
-        Vector3 basePos = spawnOffset != null ? spawnOffset.position : transform.position + Vector3.forward * 50f;
+        Vector3 basePos = spawnOffset != null ? spawnOffset.position : transform.position + Vector3.forward * 200f;
         basePos.y = 0f; // Keep same height as current portal
 
         // Instantiate the new room

@@ -201,8 +201,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   armorAmount: 5
-  lifeTime: 5
-  attractRange: 12
+  lifeTime: 10
+  attractRange: 15
   moveSpeed: 50
   pickupSound: {fileID: 0}
   pickupEffect: {fileID: 0}

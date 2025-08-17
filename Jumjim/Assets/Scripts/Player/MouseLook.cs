@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.UI; // for Slider
 
 public class MouseLook : MonoBehaviour
 {
+    [Header("Sensitivity Settings")]
     public float sensitivity = 100f;
     public Transform playerBody;
 
@@ -22,5 +24,11 @@ public class MouseLook : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Up/down on camera
         playerBody.Rotate(Vector3.up * mouseX); // Left/right on player body
+    }
+
+    // Function for slider
+    public void SetSensitivity(float newSensitivity)
+    {
+        sensitivity = newSensitivity;
     }
 }

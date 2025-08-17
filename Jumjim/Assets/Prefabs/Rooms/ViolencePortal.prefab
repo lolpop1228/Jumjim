@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2565896249975921370}
   - component: {fileID: 8687897852195658169}
   m_Layer: 0
-  m_Name: HardPortal
+  m_Name: ViolencePortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f80bb87b73a77e94781580e9a8bfff25, type: 2}
+  - {fileID: 2100000, guid: 52c42a4f3dd38c54fbbbc4d8a32b9347, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,9 +119,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
-  - {fileID: 2993596945842852794, guid: 55ab6487143ddc8438cb28d919ca0026, type: 3}
-  - {fileID: 5222237141476008462, guid: b1a2ec83d377d7844aa09b189392baa2, type: 3}
-  - {fileID: 7292566642856766231, guid: 099704ccc05232544a785fc2639a3ece, type: 3}
+  - {fileID: 1194959551312800683, guid: c5cacc72d50fee64ca443480126aac25, type: 3}
+  - {fileID: 9154127492177532425, guid: f9e964a0fc4e0fc49a8d22bd4dbfa298, type: 3}
+  - {fileID: 2590499768048664363, guid: ca633d3b912f0fe44a16bb5827eb82d0, type: 3}
+  - {fileID: 1765076964582178282, guid: 8dd70cc55d78fc245bd08dee3b53b815, type: 3}
+  - {fileID: 7959021431452132062, guid: b2f739d5ec00d8a47973f6649c233d62, type: 3}
   spawnOffset: {fileID: 0}
   destroyCurrentRoom: 1
   teleportPlayerToEntrance: 1

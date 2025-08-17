@@ -1330,10 +1330,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.575703
-  m_Height: 7.805311
+  m_Radius: 1.9110234
+  m_Height: 8.056778
   m_Direction: 1
-  m_Center: {x: -0.06121176, y: 3.402654, z: -0.5322244}
+  m_Center: {x: -0.031369526, y: 3.5283864, z: -0.53222454}
 --- !u!95 &972232634759300890
 Animator:
   serializedVersion: 5
@@ -1395,7 +1395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  moveSpeed: 12
+  moveSpeed: 15
   stopDistance: 2
   attackCooldown: 1
   damage: 5
@@ -1404,7 +1404,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
-  wobbleAmount: 0.5
+  wobbleAmount: 0.2
   wobbleSpeed: 2
   avoidDistance: 6
   avoidStrength: 8
@@ -1432,10 +1432,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
+  spawner: {fileID: 0}
   bloodEffect: {fileID: 3169145786230463210, guid: 8299354f942ae2948969d9a48658c668, type: 3}
   effectPoint: {fileID: 6843898939785565583}
   healthDropPrefab: {fileID: 3015828645614340230, guid: 934d4888881593c4f998d1d686427d3a, type: 3}
-  healthDropChance: 0.5
+  healthDropChance: 1
   armorDropPrefab: {fileID: 3015828645614340230, guid: 934d4888881593c4f998d1d686427d3a, type: 3}
   armorDropChance: 0.5
   healthDropAmountRange: {x: 1, y: 3}

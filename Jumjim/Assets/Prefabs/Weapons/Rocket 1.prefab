@@ -100,9 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetime: 5
   explosionEffect: {fileID: 8919652342441398295, guid: 2604ee28889c9f746b5ddcf8eff2a128, type: 3}
-  explosionRadius: 5
-  explosionDamage: 200
-  playerDamage: 20
+  explosionRadius: 8
+  explosionDamage: 100
+  playerDamage: 30
   damageableLayers:
     serializedVersion: 2
     m_Bits: 1536
