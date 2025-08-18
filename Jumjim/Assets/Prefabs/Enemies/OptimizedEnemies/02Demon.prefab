@@ -570,15 +570,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc22f3d3e40edd46b5933662eece5b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 40
+  maxHealth: 30
   spawner: {fileID: 0}
   bloodEffect: {fileID: 3169145786230463210, guid: 8299354f942ae2948969d9a48658c668, type: 3}
   effectPoint: {fileID: 4980268180727575480}
-  healthDropPrefab: {fileID: 3112471261465438101, guid: 3552a53d22321744bbee72daa68be6df, type: 3}
+  healthDropPrefab: {fileID: 3128099709621334161, guid: 6615276d8cc841447b32ef0079a37a49, type: 3}
   healthDropChance: 0.5
-  armorDropPrefab: {fileID: 1407949750665118907, guid: c0ac33f35c1b56246a5c9df041cd2dea, type: 3}
+  armorDropPrefab: {fileID: 5931444267244351699, guid: 1ca69daae4bca974b9f6915b1d973121, type: 3}
   armorDropChance: 0.5
-  healthDropAmountRange: {x: 1, y: 2}
+  healthDropAmountRange: {x: 1, y: 3}
   armorDropAmountRange: {x: 1, y: 2}
   fallThreshold: -30
   groundLayers:

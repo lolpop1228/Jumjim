@@ -122,6 +122,7 @@ MonoBehaviour:
   - {fileID: 46055893270220716, guid: 7b1999241e8a40c439a8565eaaa05c69, type: 3}
   - {fileID: 330169863221187909, guid: 82018672dea45e344b06098f0bef699f, type: 3}
   - {fileID: 2501136230689193852, guid: 2cb534b6a41d4594d97a558345d998c4, type: 3}
+  - {fileID: 7939597349012378813, guid: 60cf734cffc23e941a3ffd0f1629af26, type: 3}
   spawnOffset: {fileID: 0}
   destroyCurrentRoom: 1
   teleportPlayerToEntrance: 1
