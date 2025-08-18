@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  moveSpeed: 18
+  moveSpeed: 20
   stopDistance: 2
   attackCooldown: 1
   damage: 18
@@ -2081,7 +2081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc22f3d3e40edd46b5933662eece5b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 120
+  maxHealth: 150
   spawner: {fileID: 0}
   bloodEffect: {fileID: 3169145786230463210, guid: 8299354f942ae2948969d9a48658c668, type: 3}
   effectPoint: {fileID: 808050523270876935}

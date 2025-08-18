@@ -392,7 +392,7 @@ MonoBehaviour:
   spawnCenter: {fileID: 8716037615217026461}
   portalSpawn: {fileID: 8733854497966843922}
   spawnRadius: 30.8
-  enemiesToSpawn: 23
+  enemiesToSpawn: 25
   spawnDelay: 0.5
   autoSpawnOnStart: 1
   minDistanceBetweenSpawns: 7

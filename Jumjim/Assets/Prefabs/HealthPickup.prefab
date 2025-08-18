@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healAmount: 5
-  lifeTime: 8
+  lifeTime: 5
   attractRange: 15
   moveSpeed: 50
   pickupSound: {fileID: 0}
