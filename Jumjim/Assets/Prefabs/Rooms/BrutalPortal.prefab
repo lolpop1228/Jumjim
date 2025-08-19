@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefabs:
   - {fileID: 7009068394596386835, guid: f05be394f80d24f44b7461081bb8d335, type: 3}
+  - {fileID: 1626618755188228077, guid: b788536155a3a014d88495c1a3779f7a, type: 3}
   spawnOffset: {fileID: 0}
   destroyCurrentRoom: 1
   teleportPlayerToEntrance: 1

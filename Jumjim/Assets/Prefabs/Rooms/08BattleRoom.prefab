@@ -1609,6 +1609,7 @@ MonoBehaviour:
   hardPortalPrefab: {fileID: 820913167881707167, guid: a5b3bd8d737fbe145b2cf7783f0dd7fc, type: 3}
   violencePortalPrefab: {fileID: 820913167881707167, guid: d4b46c9f29760004e9d15e843b16b71b, type: 3}
   extremePortalPrefab: {fileID: 820913167881707167, guid: 399402f9aa9a1fe43ab2c46c4798d269, type: 3}
+  brutalPortalPrefab: {fileID: 820913167881707167, guid: 5ad5c7d2f45727842a5eddc76dbadfd2, type: 3}
   spawnCenter: {fileID: 8355358146100384474}
   portalSpawn: {fileID: 8355358146100384474}
   spawnRadius: 13.9

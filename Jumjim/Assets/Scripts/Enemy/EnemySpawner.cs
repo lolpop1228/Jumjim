@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject hardPortalPrefab;
     public GameObject violencePortalPrefab;
     public GameObject extremePortalPrefab;
+    public GameObject brutalPortalPrefab;
     public Transform spawnCenter;
     public Transform portalSpawn;
     public float spawnRadius = 10f;
@@ -121,25 +122,33 @@ public class EnemySpawner : MonoBehaviour
             {
                 SpawnPortal(tressurePortalPrefab);
             }
-            else if (level > 5 && level < 15)
+            else if (level > 5 && level < 10)
             {
                 SpawnPortal(hardPortalPrefab);
+            }
+            else if (level == 10)
+            {
+                SpawnPortal(tressurePortalPrefab);
+            }
+            else if (level > 10 && level < 15)
+            {
+                SpawnPortal(violencePortalPrefab);
             }
             else if (level == 15)
             {
                 SpawnPortal(tressurePortalPrefab);
             }
-            else if (level > 15 && level < 25)
+            else if (level > 15 && level < 20)
             {
-                SpawnPortal(violencePortalPrefab);
+                SpawnPortal(extremePortalPrefab);
             }
-            else if (level == 25)
+            else if (level == 20)
             {
                 SpawnPortal(tressurePortalPrefab);
             }
-            else if (level > 25)
+            else if (level > 20)
             {
-                SpawnPortal(extremePortalPrefab);
+                SpawnPortal(brutalPortalPrefab);
             }
 
             portalSpawned = true;
