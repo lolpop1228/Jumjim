@@ -62,12 +62,31 @@ public class WeaponInventory : MonoBehaviour
 
     void Update()
     {
-        // Only check input if we have multiple weapons
-        if (ownedWeapons.Count > 1 && Input.GetKeyDown(KeyCode.Q))
+        if (ownedWeapons.Count == 0) return;
+
+        // --- Mouse scroll wheel ---
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll > 0f) // scroll up
         {
-            EquipWeapon((currentWeaponIndex + 1) % ownedWeapons.Count);
+            int nextIndex = (currentWeaponIndex + 1) % ownedWeapons.Count;
+            EquipWeapon(nextIndex);
+        }
+        else if (scroll < 0f) // scroll down
+        {
+            int prevIndex = (currentWeaponIndex - 1 + ownedWeapons.Count) % ownedWeapons.Count;
+            EquipWeapon(prevIndex);
+        }
+
+        // --- Number keys (1, 2, 3, ...) ---
+        for (int i = 0; i < ownedWeapons.Count; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                EquipWeapon(i);
+            }
         }
     }
+
 
     public List<MonoBehaviour> GetOwnedWeapons()
     {

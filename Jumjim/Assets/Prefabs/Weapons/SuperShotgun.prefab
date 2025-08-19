@@ -246,9 +246,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 1
   damage: 20
-  range: 15
+  range: 25
   pelletCount: 20
-  spreadAngle: 8
+  spreadAngle: 10
   isAutomatic: 0
   weaponName: SuperShotgun
   jumpForce: 20

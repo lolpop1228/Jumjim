@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  moveSpeed: 20
+  moveSpeed: 19
   stopDistance: 2
   attackCooldown: 1
   damage: 12
