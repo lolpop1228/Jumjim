@@ -18,6 +18,10 @@ public class HitscanEnemy : MonoBehaviour
     public LineRenderer bulletTrailPrefab;
     public GameObject impactEffectPrefab;
 
+    [Header("Audio")]
+    public AudioClip chaseClip;   // ← plays when moving/chasing
+    public AudioClip attackClip;  // ← plays when attacking
+
     [Header("Obstacle Avoidance")]
     public float avoidDistance = 3f;
     public float sphereRadius = 0.5f;
@@ -34,13 +38,16 @@ public class HitscanEnemy : MonoBehaviour
     public float climbSpeed = 3f;
 
     [Header("Animation")]
-    public Animator animator;   // ← Added Animator
+    public Animator animator;
 
     private Rigidbody rb;
     private float fireTimer;
     private bool isClimbing;
 
-    // ─────────────────────────────────────────────────────────────
+    public AudioSource audioSource;
+    private bool isPlayingChaseSound;
+
+    // ──────────────────────────────────────────────
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -56,9 +63,10 @@ public class HitscanEnemy : MonoBehaviour
         {
             animator = GetComponentInChildren<Animator>();
         }
+        audioSource.loop = true; // loop chase sound
     }
 
-    // ─────────────────────────────────────────────────────────────
+    // ──────────────────────────────────────────────
     void Update()
     {
         if (player == null) return;
@@ -66,19 +74,22 @@ public class HitscanEnemy : MonoBehaviour
         fireTimer -= Time.deltaTime;
 
         float dist = Vector3.Distance(transform.position, player.position);
-        animator?.SetBool("isMoving", dist > stopDistance);  // Update moving state
+        animator?.SetBool("isMoving", dist > stopDistance);
 
+        // Attack logic
         if (fireTimer <= 0f && dist <= stopDistance && CanSeePlayer())
         {
             FireRaycast();
             fireTimer = fireRate;
 
-            // Trigger shooting animation
-            if (animator != null)
-            {
-                animator.SetTrigger("shoot");
-            }
+            animator?.SetTrigger("shoot");
+
+            PlayAttackSound();
         }
+
+        // Chase sound logic
+        if (dist > stopDistance) PlayChaseSound();
+        else StopChaseSound();
     }
 
     void FixedUpdate()
@@ -88,7 +99,7 @@ public class HitscanEnemy : MonoBehaviour
         Vector3 targetPos = new Vector3(player.position.x, rb.position.y, player.position.z);
         Vector3 direction = (targetPos - rb.position).normalized;
 
-        // ─ Separation
+        // Separation
         Vector3 separation = Vector3.zero;
         foreach (Collider c in Physics.OverlapSphere(transform.position, separationRadius, enemyLayer))
         {
@@ -98,11 +109,10 @@ public class HitscanEnemy : MonoBehaviour
             if (dist > 0f) separation += away.normalized / dist;
         }
 
-        // ─ Climb check
+        // Climb check
         Vector3 climbOrigin = transform.position + Vector3.up * 0.5f;
         isClimbing = Physics.Raycast(climbOrigin, direction, climbCheckDistance, obstacleLayer);
 
-        // Prevent endless climb if near player height
         if (player.position.y - transform.position.y < 0.5f)
             isClimbing = false;
 
@@ -113,7 +123,7 @@ public class HitscanEnemy : MonoBehaviour
             return;
         }
 
-        // ─ Obstacle avoidance
+        // Obstacle avoidance
         Vector3 avoidance = Vector3.zero;
         if (Physics.SphereCast(climbOrigin, sphereRadius, direction, out RaycastHit hit, avoidDistance, obstacleLayer))
         {
@@ -123,23 +133,20 @@ public class HitscanEnemy : MonoBehaviour
         }
 
         Vector3 finalDir = direction + separation * separationStrength;
-
         if (avoidance != Vector3.zero)
             finalDir = Vector3.Lerp(finalDir, avoidance, avoidStrength * Time.fixedDeltaTime);
 
         finalDir = finalDir.normalized;
 
         if (Vector3.Distance(rb.position, player.position) > stopDistance)
-        {
             rb.MovePosition(rb.position + finalDir * moveSpeed * Time.fixedDeltaTime);
-        }
 
-        // ─ Face the player
         Vector3 look = new Vector3(direction.x, 0f, direction.z);
         if (look.sqrMagnitude > 0f)
             rb.MoveRotation(Quaternion.LookRotation(look));
     }
 
+    // ──────────────────────────────────────────────
     void FireRaycast()
     {
         if (!shootOrigin || !player) return;
@@ -150,10 +157,7 @@ public class HitscanEnemy : MonoBehaviour
         if (Physics.Raycast(origin, direction, out RaycastHit hit, raycastRange, hitLayers))
         {
             PlayerHealth ph = hit.collider.GetComponent<PlayerHealth>();
-            if (ph != null)
-            {
-                ph.TakeDamage(damage);
-            }
+            if (ph != null) ph.TakeDamage(damage);
 
             if (impactEffectPrefab)
                 Instantiate(impactEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
@@ -180,7 +184,6 @@ public class HitscanEnemy : MonoBehaviour
         {
             return hit.transform == player;
         }
-
         return false;
     }
 
@@ -202,5 +205,34 @@ public class HitscanEnemy : MonoBehaviour
 
         trail.SetPosition(1, end);
         Destroy(trail.gameObject, 0.1f);
+    }
+
+    // ──────────────────────────────────────────────
+    void PlayChaseSound()
+    {
+        if (!isPlayingChaseSound && chaseClip)
+        {
+            audioSource.clip = chaseClip;
+            audioSource.loop = true;
+            audioSource.Play();
+            isPlayingChaseSound = true;
+        }
+    }
+
+    void StopChaseSound()
+    {
+        if (isPlayingChaseSound)
+        {
+            audioSource.Stop();
+            isPlayingChaseSound = false;
+        }
+    }
+
+    void PlayAttackSound()
+    {
+        if (attackClip)
+        {
+            audioSource.PlayOneShot(attackClip);
+        }
     }
 }

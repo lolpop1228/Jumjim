@@ -39,17 +39,26 @@ public class NormalProjectileEnemy : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
 
+    [Header("Audio")]
+    public AudioClip chaseClip;
+    public AudioClip shootClip;
+
     // ─────────────────────────────────────────────────────────────
     private Rigidbody rb;
+    public AudioSource audioSource;
     private float attackTimer;
     private float wobbleTimer;
     private bool isClimbing;
+    private bool isChasing;
 
     // ─────────────────────────────────────────────────────────────
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotation;
+        
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
 
         // Auto-find player if not set
         if (player == null)
@@ -71,11 +80,22 @@ public class NormalProjectileEnemy : MonoBehaviour
 
         attackTimer -= Time.deltaTime;
         float dist = Vector3.Distance(transform.position, player.position);
+        bool shouldChase = dist > stopDistance;
 
         // Animation for movement
         if (animator != null)
         {
-            animator.SetBool("isMoving", dist > stopDistance);
+            animator.SetBool("isMoving", shouldChase);
+        }
+
+        // Handle chase audio
+        if (shouldChase && !isChasing)
+        {
+            PlayChaseSound();
+        }
+        else if (!shouldChase && isChasing)
+        {
+            StopChaseSound();
         }
 
         // Shoot only if within range and has line of sight
@@ -189,6 +209,15 @@ public class NormalProjectileEnemy : MonoBehaviour
         {
             projRb.velocity = dir * projectileSpeed;
         }
+
+        // Stop chase loop while shooting
+        StopChaseSound();
+
+        // Play shooting SFX once
+        if (shootClip != null)
+        {
+            audioSource.PlayOneShot(shootClip);
+        }
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -206,5 +235,26 @@ public class NormalProjectileEnemy : MonoBehaviour
         }
 
         return true; // No obstacle, can shoot
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    void PlayChaseSound()
+    {
+        if (chaseClip != null)
+        {
+            audioSource.clip = chaseClip;
+            audioSource.loop = true;
+            audioSource.Play();
+            isChasing = true;
+        }
+    }
+
+    void StopChaseSound()
+    {
+        if (isChasing)
+        {
+            audioSource.Stop();
+            isChasing = false;
+        }
     }
 }

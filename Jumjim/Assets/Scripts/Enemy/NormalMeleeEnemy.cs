@@ -38,11 +38,17 @@ public class NormalMeleeEnemy : MonoBehaviour
     public LayerMask groundLayer;
     public float rayDistance = 3f;
 
+    [Header("Audio")]
+    public AudioClip chaseClip;
+    public AudioClip attackClip;
+
     private Rigidbody rb;
+    public AudioSource audioSource;
     private float attackTimer;
     private float wobbleTimer;
     private Vector3 groundNormal = Vector3.up;
     private bool isClimbing;
+    private bool isChasing;
 
     void Start()
     {
@@ -60,6 +66,10 @@ public class NormalMeleeEnemy : MonoBehaviour
         {
             animator = GetComponentInChildren<Animator>();
         }
+
+        // Set audio defaults
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
     }
 
     void Update()
@@ -68,7 +78,19 @@ public class NormalMeleeEnemy : MonoBehaviour
         if (player == null) return;
 
         float dist = Vector3.Distance(transform.position, player.position);
-        animator.SetBool("isMoving", dist > stopDistance);
+        bool shouldChase = dist > stopDistance;
+
+        animator.SetBool("isMoving", shouldChase);
+
+        // Handle chase audio
+        if (shouldChase && !isChasing)
+        {
+            PlayChaseSound();
+        }
+        else if (!shouldChase && isChasing)
+        {
+            StopChaseSound();
+        }
 
         if (dist <= stopDistance && attackTimer <= 0f)
         {
@@ -89,7 +111,6 @@ public class NormalMeleeEnemy : MonoBehaviour
         if (Physics.Raycast(climbOrigin, dirToPlayer, out RaycastHit climbHit, climbCheckDistance, obstacleLayer))
         {
             isClimbing = true;
-            Debug.Log("Climbing Triggered! Hit: " + climbHit.collider.name);
             Debug.DrawRay(climbOrigin, dirToPlayer * climbCheckDistance, Color.green);
         }
         else
@@ -101,19 +122,17 @@ public class NormalMeleeEnemy : MonoBehaviour
         // ---- PRIORITIZE CLIMBING ----
         if (isClimbing)
         {
-            // Move straight forward and up, ignoring everything else
             Vector3 climbDirection = (Vector3.up + dirToPlayer).normalized;
             rb.MovePosition(rb.position + climbDirection * climbSpeed * Time.fixedDeltaTime);
 
-            // Face the wall/player direction
             Vector3 flatLookDir = new Vector3(dirToPlayer.x, 0f, dirToPlayer.z);
             if (flatLookDir.sqrMagnitude > 0f)
                 rb.MoveRotation(Quaternion.LookRotation(flatLookDir));
 
-            return; // Skip all other logic
+            return;
         }
 
-        // ---- NORMAL MOVEMENT (if not climbing) ----
+        // ---- NORMAL MOVEMENT ----
         Vector3 separation = Vector3.zero;
         foreach (Collider c in Physics.OverlapSphere(transform.position, separationRadius, enemyLayer))
         {
@@ -183,6 +202,15 @@ public class NormalMeleeEnemy : MonoBehaviour
             animator.SetTrigger("attack");
         }
 
+        // Stop chase loop while attacking
+        StopChaseSound();
+
+        // Play attack SFX once
+        if (attackClip != null)
+        {
+            audioSource.PlayOneShot(attackClip);
+        }
+
         if (Vector3.Distance(transform.position, player.position) <= stopDistance + 0.5f)
         {
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
@@ -190,6 +218,26 @@ public class NormalMeleeEnemy : MonoBehaviour
             {
                 playerHealth.TakeDamage(damage);
             }
+        }
+    }
+
+    void PlayChaseSound()
+    {
+        if (chaseClip != null)
+        {
+            audioSource.clip = chaseClip;
+            audioSource.loop = true;
+            audioSource.Play();
+            isChasing = true;
+        }
+    }
+
+    void StopChaseSound()
+    {
+        if (isChasing)
+        {
+            audioSource.Stop();
+            isChasing = false;
         }
     }
 }
