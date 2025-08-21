@@ -2153,7 +2153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  moveSpeed: 19
+  moveSpeed: 18
   stopDistance: 4
   attackCooldown: 1
   damage: 12
