@@ -24,6 +24,7 @@ TagManager:
   - StartRoom
   - HurtUI
   - WeaponHolder
+  - ResultText
   layers:
   - Default
   - TransparentFX
