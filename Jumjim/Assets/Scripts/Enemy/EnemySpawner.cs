@@ -139,19 +139,19 @@ public class EnemySpawner : MonoBehaviour
             {
                 SpawnPortal(tressurePortalPrefab);
             }
-            else if (level > 15 && level < 20)
+            else if (level > 15 && level < 22)
             {
                 SpawnPortal(extremePortalPrefab);
             }
-            else if (level == 20)
+            else if (level == 22)
             {
                 SpawnPortal(tressurePortalPrefab);
             }
-            else if (level > 20)
+            else if (level > 22 && level < 29)
             {
                 SpawnPortal(brutalPortalPrefab);
             }
-            else if (level == 25)
+            else if (level == 29)
             {
                 SpawnPortal(endPortalPrefab);
             }

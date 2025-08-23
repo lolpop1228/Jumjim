@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public string sceneToStart;
+    public GameObject controlsUI;
+    public GameObject creditsUI;
 
     public void StartGame()
     {
@@ -16,4 +18,25 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void OpenControls()
+    {
+        controlsUI.SetActive(true);
+    }
+
+    public void CloseControls()
+    {
+        controlsUI.SetActive(false);
+    }
+
+    public void OpenCredits()
+    {
+        creditsUI.SetActive(true);
+    }
+
+    public void CloseCredits()
+    {
+        creditsUI.SetActive(false);
+    }
+
 }

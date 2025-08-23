@@ -8593,10 +8593,11 @@ MonoBehaviour:
   violencePortalPrefab: {fileID: 820913167881707167, guid: d4b46c9f29760004e9d15e843b16b71b, type: 3}
   extremePortalPrefab: {fileID: 820913167881707167, guid: 399402f9aa9a1fe43ab2c46c4798d269, type: 3}
   brutalPortalPrefab: {fileID: 820913167881707167, guid: 5ad5c7d2f45727842a5eddc76dbadfd2, type: 3}
+  endPortalPrefab: {fileID: 0}
   spawnCenter: {fileID: 9129786467030975669}
   portalSpawn: {fileID: 4712258019212165190}
   spawnRadius: 21.9
-  enemiesToSpawn: 24
+  enemiesToSpawn: 26
   spawnDelay: 0.5
   autoSpawnOnStart: 1
   minDistanceBetweenSpawns: 4

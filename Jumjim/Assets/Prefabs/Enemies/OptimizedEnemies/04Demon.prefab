@@ -637,7 +637,7 @@ MonoBehaviour:
   healthDropPrefab: {fileID: 3112471261465438101, guid: 3552a53d22321744bbee72daa68be6df, type: 3}
   healthDropChance: 0.5
   armorDropPrefab: {fileID: 1407949750665118907, guid: c0ac33f35c1b56246a5c9df041cd2dea, type: 3}
-  armorDropChance: 0.3
+  armorDropChance: 0.5
   healthDropAmountRange: {x: 1, y: 3}
   armorDropAmountRange: {x: 1, y: 2}
   fallThreshold: -10

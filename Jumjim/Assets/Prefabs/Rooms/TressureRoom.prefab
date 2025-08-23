@@ -865,13 +865,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5518809118653860080}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8991880009578799850}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
 --- !u!1 &8611519752555280464
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,7 +999,6 @@ MonoBehaviour:
   - {fileID: 2536454098936177803, guid: 982541bc532924d438520cb3e8df74c6, type: 3}
   - {fileID: 3762489335156539701, guid: 8871059cb83982c41bfd3013d0d5f23f, type: 3}
   - {fileID: 3277844371793583024, guid: 90c562d8790272e4eb4d03a275537380, type: 3}
-  - {fileID: 777293395297194428, guid: f65be8634681db64980dfa63a4538845, type: 3}
   - {fileID: 7628718257284470664, guid: 13a6e9b09d9f4b144bbd3f91e7481228, type: 3}
   portalPrefab: {fileID: 820913167881707167, guid: a5b3bd8d737fbe145b2cf7783f0dd7fc, type: 3}
   portalPoint: {fileID: 6736275955066488172}

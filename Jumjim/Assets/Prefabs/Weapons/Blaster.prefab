@@ -5778,13 +5778,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d65a738a88f94458a1ccc2d887d16f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 0.1
+  fireRate: 0.15
   damage: 2
   range: 30
   weaponName: Blaster
   isAutomatic: 1
-  rayCount: 30
-  spreadAngle: 70
+  rayCount: 20
+  spreadAngle: 60
   muzzleFlash: {fileID: 9028680994788151308}
   bulletTracerPrefab: {fileID: 4843799273032920906, guid: 5e620d8d509e300429c605f3d683c28a, type: 3}
   enemyHitEffectPrefab: {fileID: 3169145786230463210, guid: 8299354f942ae2948969d9a48658c668, type: 3}

@@ -536,7 +536,7 @@ MonoBehaviour:
   player: {fileID: 0}
   moveSpeed: 12
   stopDistance: 6
-  damage: 5
+  damage: 4
   fireRate: 0.7
   raycastRange: 100
   hitLayers:

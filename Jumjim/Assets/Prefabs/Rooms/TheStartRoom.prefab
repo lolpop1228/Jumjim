@@ -452,7 +452,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: START
+  m_text: PICK UP THE GUN
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b5d38e1e534b8c040909346559096757, type: 2}
   m_sharedMaterial: {fileID: -8778299674953260089, guid: b5d38e1e534b8c040909346559096757, type: 2}
@@ -479,8 +479,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 9.05
+  m_fontSizeBase: 9.05
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5682,7 +5682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 567174c69c2347644b829af0d57fbfdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalPrefab: {fileID: 820913167881707167, guid: 62e2f5d6fad577e4381dc673fa17b351, type: 3}
+  portalPrefab: {fileID: 820913167881707167, guid: f831f0b77d8973e49887bf05a632cb6e, type: 3}
   portalSpawnPoints:
   - {fileID: 523156745308422406}
   - {fileID: 4246109370966994922}
@@ -5825,12 +5825,24 @@ PrefabInstance:
       value: Pistol
       objectReference: {fileID: 0}
     - target: {fileID: 5195921666250758016, guid: 54b90a49f3791264b81c68d3dbff2bf6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5195921666250758016, guid: 54b90a49f3791264b81c68d3dbff2bf6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5195921666250758016, guid: 54b90a49f3791264b81c68d3dbff2bf6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5195921666250758016, guid: 54b90a49f3791264b81c68d3dbff2bf6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.5080924
+      value: 4.977
       objectReference: {fileID: 0}
     - target: {fileID: 5195921666250758016, guid: 54b90a49f3791264b81c68d3dbff2bf6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.604
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 5195921666250758016, guid: 54b90a49f3791264b81c68d3dbff2bf6, type: 3}
       propertyPath: m_LocalPosition.z

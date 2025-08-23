@@ -2156,7 +2156,7 @@ MonoBehaviour:
   moveSpeed: 18
   stopDistance: 4
   attackCooldown: 1
-  damage: 12
+  damage: 14
   separationRadius: 6
   separationStrength: 2.5
   enemyLayer:
