@@ -151,6 +151,6 @@ public class PlayerHealth : MonoBehaviour
 
     void ReloadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("DeathScene");
     }
 }

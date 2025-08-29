@@ -15,4 +15,9 @@ public class EndMenu : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void Continue()
+    {
+        SceneManager.LoadScene("TestMap");
+    }
 }
