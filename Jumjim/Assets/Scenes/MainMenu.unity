@@ -156,8 +156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -135.1, y: 314.02}
-  m_SizeDelta: {x: 451.8, y: 50}
+  m_AnchoredPosition: {x: 11.5, y: 314.02}
+  m_SizeDelta: {x: 721.72, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &120653758
 MonoBehaviour:
@@ -188,7 +188,9 @@ MonoBehaviour:
     Left Click - Fire
 
     E
-    - Interact'
+    - Interact
+
+    1-5,Scroll Whell - Choose Weapon in your Inventory'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b5d38e1e534b8c040909346559096757, type: 2}
   m_sharedMaterial: {fileID: -8778299674953260089, guid: b5d38e1e534b8c040909346559096757, type: 2}
